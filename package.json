@@ -1,0 +1,304 @@
+{
+	"name": "identity-lsp-root",
+	"description": "Identity Server LSP Root",
+	"author": "WSO2 Inc.",
+	"license": "Apache 2.0",
+	"version": "1.0.0",
+	"repository": {},
+	"publisher": "wso2",
+	"categories": [],
+	"keywords": [
+		"multi-root ready"
+	],
+	"engines": {
+		"vscode": "^1.39.0"
+	},
+	"activationEvents": [
+		"onDebug",
+		"onCommand:extension.mock-debug.getProgramName",
+		"onLanguage:javascript",
+		"onLanguage:xml",
+		"onCommand:extension.diagram",
+		"onCommand:extension.script",
+		"onCommand:extension.serviceProviers",
+		"onCommand:extension.oAuth",
+		"onView:service-providers",
+		"onView:script-libraries"
+	],
+	"main": "client/out/extension",
+	"contributes": {
+		"languages": [
+			{
+				"id": "javascript",
+				"aliases": [
+					"javascript"
+				],
+				"extensions": [
+					".authjs"
+				]
+			},
+			{
+				"id": "xml",
+				"aliases": [
+					"xml"
+				],
+				"extensions": [
+					".authxml"
+				]
+			}
+		],
+		"breakpoints": [
+			{
+				"language": "javascript"
+			}
+		],
+		"debuggers": [
+			{
+				"type": "mock",
+				"label": "WSO2 IAM Debug",
+				"program": "./out/debugAdapter.js",
+				"runtime": "node",
+				"languages": [
+					"javascript"
+				],
+				"configurationAttributes": {
+					"launch": {
+						"required": [
+							"program"
+						],
+						"properties": {
+							"program": {
+								"type": "string",
+								"description": "Absolute path to a text file.",
+								"default": "${workspaceFolder}/${command:AskForProgramName}"
+							},
+							"stopOnEntry": {
+								"type": "boolean",
+								"description": "Automatically stop after launch.",
+								"default": true
+							},
+							"trace": {
+								"type": "boolean",
+								"description": "Enable logging of the Debug Adapter Protocol.",
+								"default": true
+							}
+						}
+					}
+				},
+				"initialConfigurations": [
+					{
+						"type": "mock",
+						"request": "launch",
+						"name": "Ask for file name",
+						"program": "${workspaceFolder}/${command:AskForProgramName}",
+						"stopOnEntry": true
+					}
+				],
+				"configurationSnippets": [
+					{
+						"label": "WSO2 IAM Debug: Launch",
+						"description": "A new configuration for 'debugging' a user selected markdown file.",
+						"body": {
+							"type": "mock",
+							"request": "launch",
+							"name": "Ask for file name",
+							"program": "^\"\\${workspaceFolder}/\\${command:AskForProgramName}\"",
+							"stopOnEntry": true
+						}
+					}
+				],
+				"variables": {
+					"AskForProgramName": "extension.mock-debug.getProgramName"
+				}
+			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "package-explorer",
+					"title": "WSO2 IAM Manger",
+					"icon": "resources/iss.ico"
+				}
+			]
+		},
+		"views": {
+			"package-explorer": [
+				{
+					"id": "service-providers",
+					"name": "Service Providers"
+				},
+				{
+					"id": "script-libraries",
+					"name": "Script Libraries"
+				}
+			]
+		},
+		"menus": {
+			"commandPalette": [
+				{
+					"command": "extension.serviceProvierFromTreeView",
+					"when": "false"
+				},
+				{
+					"command": "extension.diagram",
+					"when": "false"
+				},
+				{
+					"command": "extension.script",
+					"when": "false"
+				}
+			],
+			"editor/title": [
+				{
+					"when": "resourceExtname == .authxml",
+					"command": "extension.diagram",
+					"alt": "markdown.showPreviewToSide",
+					"group": "navigation"
+				},
+				{
+					"when": "resourceExtname == .authjs",
+					"command": "extension.script",
+					"alt": "markdown.showPreviewToSide",
+					"group": "navigation"
+				}
+			],
+			"editor/context": [
+				{
+					"when": "resourceExtname == .authxml",
+					"command": "extension.diagram",
+					"alt": "markdown.showPreviewToSide",
+					"group": "navigation"
+				},
+				{
+					"when": "resourceExtname == .authjs",
+					"command": "extension.script",
+					"alt": "markdown.showPreviewToSide",
+					"group": "navigation"
+				}
+			],
+			"view/title": [
+				{
+					"when": "view == service-providers",
+					"command": "extension.refreshServices",
+					"group": "navigation"
+				},
+				{
+					"when": "view == script-libraries",
+					"command": "extension.refreshScripts",
+					"group": "navigation"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "extension.serviceProviers",
+				"title": "IAM Service Providers"
+			},
+			{
+				"command": "extension.diagram",
+				"title": "Show Diagram"
+			},
+			{
+				"command": "extension.script",
+				"title": "Sync"
+			},
+			{
+				"command": "extension.oAuth",
+				"title": "Login With Wso2 IS"
+			},
+			{
+				"command": "extension.serviceProvierFromTreeView",
+				"title": "Service providers from Tree View"
+			},
+			{
+				"command": "extension.scriptLibrariesFromTreeView",
+				"title": "Script libraries from Tree View"
+			},
+			{
+				"command": "extension.refreshServices",
+				"title": "Refresh",
+				"icon": "resources/refresh.png"
+			},
+			{
+				"command": "extension.refreshScripts",
+				"title": "Refresh",
+				"icon": "resources/refresh.png"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Identity Server",
+			"properties": {
+				"languageServerExample.maxNumberOfProblems": {
+					"scope": "resource",
+					"type": "number",
+					"default": 100,
+					"description": "Controls the maximum number of problems produced by the server."
+				},
+				"languageServerExample.trace.server": {
+					"scope": "window",
+					"type": "string",
+					"enum": [
+						"off",
+						"messages",
+						"verbose"
+					],
+					"default": "off",
+					"description": "Traces the communication between VS Code and the language server."
+				},
+				"IAM.ServiceClientID": {
+					"type": "string",
+					"default": "",
+					"description": "Client ID of the Service"
+				},
+				"IAM.URL": {
+					"type": "string",
+					"default": "https://localhost:9443",
+					"description": "URL of the WSO2 Identity Server"
+				},
+				"IAM.Tenant": {
+					"type": "string",
+					"default": "carbon.super",
+					"description": "WSO2 Identity Server tenat domain"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "cd client && npm run update-vscode && cd modules && npm run compile",
+		"compile": "tsc -b",
+		"watch": "tsc -b -w",
+		"postinstall": "cd client && npm install && cd ../server && npm install && cd modules",
+		"test": "sh scripts/e2e.sh",
+		"package": "npm run compile && vsce package"
+	},
+	"devDependencies": {
+		"@types/mocha": "^5.2.7",
+		"@types/node": "^10.11.0",
+		"tslint": "^5.16.0",
+		"vscode-debugadapter-testsupport": "1.37.0",
+		"typescript": "^3.5.1",
+		"mocha": "6.2.0",
+		"vsce": "1.66.0",
+		"vscode": "^1.1.36"
+	},
+	"dependencies": {
+		"axios": "^0.19.2",
+		"client-oauth2": "^4.2.5",
+		"core-util-is": "^1.0.2",
+		"express": "^4.17.1",
+		"form-data": "^3.0.0",
+		"gapi-client": "0.0.3",
+		"https": "^1.0.0",
+		"keytar": "^5.0.0",
+		"oauth": "^0.9.15",
+		"openurl": "^1.1.1",
+		"passport-oauth2": "^1.5.0",
+		"temp": "^0.9.1",
+		"tmp": "^0.1.0",
+		"vscode-languageclient": "^5.2.1",
+		"xml-query": "^1.5.0",
+		"xml-reader": "^2.4.3",
+		"xml2js": "^0.4.22"
+	}
+}

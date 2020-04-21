@@ -1,0 +1,33 @@
+{
+	"name": "identity-lsp-client",
+	"description": "VSCode extension for Identity Server LSP",
+	"author": "WSO2 Inc.",
+	"license": "Apache 2.0",
+	"version": "0.0.1",
+	"publisher": "wso2.com",
+	"repository": {},
+	"engines": {
+		"vscode": "^1.33.0"
+	},
+	"scripts": {
+		"update-vscode": "vscode-install",
+		"postinstall": "vscode-install"
+	},
+	"dependencies": {
+		"await-notify": "1.0.1",
+		"vscode-debugadapter": "1.37.0",
+		"vscode-ws-jsonrpc": "^0.1.1",
+		"ws": "^7.1.2",
+		"string-template": "1.0.0"
+	},
+	"devDependencies": {
+		"@types/mocha": "5.2.7",
+		"@types/node": "^10.11.0",
+		"mocha": "6.2.0",
+		"tslint": "^5.18.0",
+		"typescript": "^3.8.3",
+		"vsce": "1.66.0",
+		"vscode": "1.1.36",
+		"vscode-debugadapter-testsupport": "1.37.0"
+	}
+}
