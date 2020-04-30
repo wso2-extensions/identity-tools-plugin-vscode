@@ -18,9 +18,9 @@
 import groovy.json.JsonSlurper
 
 def VERSION
-def CLI_REPO = "https://github.com/Sathiyakugan/vscode-lsp.git"
+def CLI_REPO = "https://github.com/wso2-extensions/identity-tools-plugin-vscode.git"
 def BRANCH = "master"
-def repo = "Sathiyakugan/vscode-lsp"
+def repo = "wso2-extensions/identity-tools-plugin-vscode"
 
 node('master') {
     stage('Preparation') {
@@ -55,15 +55,17 @@ node('master') {
                         npm version ${DevelopmentVersion} --no-git-tag-version
                         cd ..
                     """
-                sh 'git config  user.email "sathiyakugan.15@cse.mrt.ac.lk"'
+                sh 'git config  user.email "your email"'
                 sh 'git status'
                 sh 'git add package.json'
                 sh 'git commit -m "Update to next development version"'
-                sh 'git push -u "https://"{GIT_USERNAME}:${GIT_PASSWORD}"@github.com/Sathiyakugan/vscode-lsp.git HEAD:master"'
+                sh 'git push -u "https://"{GIT_USERNAME}:${GIT_PASSWORD}"@github.com/wso2-extensions/identity-tools-plugin-vscode.git HEAD:master"'
 
                 def response = sh returnStdout: true,
                         script: "curl --retry 5 -s -u ${GIT_USERNAME}:${GIT_PASSWORD} " +
-                                "-d '{\"tag_name\": \"v${ReleaseVersion}\", \"target_commitish\": \"${BRANCH}\", \"name\":\"vscode-lsp v${ReleaseVersion}\",\"body\":\"vscode-lsp v${ReleaseVersion} released! \",\"prerelease\": true}' " +
+                                "-d '{\"tag_name\": \"v${ReleaseVersion}\", \"target_commitish\": \"${BRANCH}\", " +
+                                "\"name\":\"vscode-wso2-is v${ReleaseVersion}\",\"body\":\"vscode-wso2-is " +
+                                "v${ReleaseVersion} released! \",\"prerelease\": true}' " +
                                 "https://api.github.com/repos/${repo}/releases"
 
                 uploadUrl = getUploadUrl(response)
