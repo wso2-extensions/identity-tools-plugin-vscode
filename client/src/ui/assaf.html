@@ -1,0 +1,320 @@
+<html lang="en">
+
+<head>
+    <link href="css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="css/fontawesome.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="css/simpleXML.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="css/custom.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="css/jsonview.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="js/jquery-3.4.1.js"></script>
+    <script src="js//popper.js"></script>
+    <script src="js//fontawesome.js"></script>
+    <script src="js/jsplumb.min.js"></script>
+    <script src="js/simpleXML.js"></script>
+    <script src="js/jsonview.js"></script>
+
+    <meta charset="UTF-8">
+
+    <title>Diagram</title>
+    <style>
+
+    </style>
+
+</head>
+
+<body class="body">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <p id="a"></p>
+            <div class="block">
+                <div id="start" class="card item_start">
+                    <div class="text-center" style="padding: 15px">
+                        <div class="text-center">
+                            <b>Start </b>
+                        </div>
+                        <div class="text-center" id="start-req-btn">
+                            <hr>
+                            <button disabled id="req-btn" class="btn btn-secondary btn-xs ">Request</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block">
+                <div id="item_1" class="text-center card-body item">
+                    <div><b>Inbound Authentication Config</b></div>
+
+                </div>
+            </div>
+
+            <div class="block" id="item_input">
+                <div id="stop" class="card item_start">
+                    <div class="text-center" style="padding: 15px">
+                        <div class="text-center" id="end-res-btn">
+                            <button disabled id="res-btn" class="btn btn-secondary btn-xs ">Response</button>
+                            <hr>
+                        </div>
+                        <div class="text-center">
+                            <b>End</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="commmon-modal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="modal-body" class="pre-scrollable modal-body">
+                <div id="simpleUseCase"></div>
+                <div class="root"></div>
+
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" id="res-tab-menu">
+                        <a class="nav-link active" id="res-tab" style="" data-toggle="tab" href="#res-tab-val"
+                           role="tab"
+                           aria-controls="home"
+                           aria-selected="true">Response</a>
+                    </li>
+                    <li class="nav-item" id="req-tab-menu">
+                        <a class="nav-link" id="req-tab" data-toggle="tab" href="#req-tab-val" role="tab"
+                           aria-controls="profile"
+                           aria-selected="false">Request</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active pre-scrollable" id="res-tab-val" role="tabpanel"
+                         aria-labelledby="home-tab"></div>
+                    <div class="tab-pane fade pre-scrollable" id="req-tab-val" role="tabpanel"
+                         aria-labelledby="profile-tab"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script src="js/bootstrap.min.js"></script>
+<script src="js/custom.js"></script>
+<script>
+    $(document).ready(function () {
+        // const vscode = acquireVsCodeApi();
+        var filepath = '/home/sathiyakugan/Documents/Space/IAM/Apps/pickup-dispatch.authxml';
+        var text = `<?xml version="1.0" encoding="UTF-8"?><ServiceProvider>
+  <ApplicationName>pickup-dispatch</ApplicationName>
+  <Description/>
+  <JwksUri/>
+  <InboundAuthenticationConfig>
+    <InboundAuthenticationRequestConfigs>
+      <InboundAuthenticationRequestConfig>
+        <InboundAuthKey>pickup-dispatch</InboundAuthKey>
+        <InboundAuthType>passivests</InboundAuthType>
+        <InboundConfigType>standardAPP</InboundConfigType>
+        <Properties/>
+      </InboundAuthenticationRequestConfig>
+      <InboundAuthenticationRequestConfig>
+        <InboundAuthKey>Yj93Wkf3hVZjhaWHsXfZmKGnuUoa</InboundAuthKey>
+        <InboundAuthType>oauth2</InboundAuthType>
+        <InboundConfigType>standardAPP</InboundConfigType>
+        <inboundConfiguration><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<oAuthAppDO>
+    <oauthConsumerKey>Yj93Wkf3hVZjhaWHsXfZmKGnuUoa</oauthConsumerKey>
+    <applicationName>pickup-dispatch</applicationName>
+    <callbackUrl>http://localhost.com:8080/pickup-dispatch/oauth2client</callbackUrl>
+    <oauthVersion>OAuth-2.0</oauthVersion>
+    <grantTypes>refresh_token urn:ietf:params:oauth:grant-type:saml2-bearer implicit password client_credentials iwa:ntlm urn:ietf:params:oauth:grant-type:device_code authorization_code urn:ietf:params:oauth:grant-type:uma-ticket account_switch urn:ietf:params:oauth:grant-type:jwt-bearer </grantTypes>
+    <scopeValidators/>
+    <pkceSupportPlain>true</pkceSupportPlain>
+    <pkceMandatory>false</pkceMandatory>
+    <state>ACTIVE</state>
+    <userAccessTokenExpiryTime>3600</userAccessTokenExpiryTime>
+    <applicationAccessTokenExpiryTime>3600</applicationAccessTokenExpiryTime>
+    <refreshTokenExpiryTime>86400</refreshTokenExpiryTime>
+    <idTokenExpiryTime>3600</idTokenExpiryTime>
+    <audiences/>
+    <bypassClientCredentials>false</bypassClientCredentials>
+    <renewRefreshTokenEnabled>true</renewRefreshTokenEnabled>
+    <requestObjectSignatureValidationEnabled>false</requestObjectSignatureValidationEnabled>
+    <idTokenEncryptionEnabled>false</idTokenEncryptionEnabled>
+    <idTokenEncryptionAlgorithm>null</idTokenEncryptionAlgorithm>
+    <idTokenEncryptionMethod>null</idTokenEncryptionMethod>
+    <tokenType>Default</tokenType>
+</oAuthAppDO>
+]]></inboundConfiguration>
+        <Properties/>
+      </InboundAuthenticationRequestConfig>
+      <InboundAuthenticationRequestConfig>
+        <InboundAuthKey>pickup-dispatch</InboundAuthKey>
+        <InboundAuthType>openid</InboundAuthType>
+        <InboundConfigType>standardAPP</InboundConfigType>
+        <Properties/>
+      </InboundAuthenticationRequestConfig>
+    </InboundAuthenticationRequestConfigs>
+  </InboundAuthenticationConfig>
+  <LocalAndOutBoundAuthenticationConfig>
+    <AuthenticationSteps/>
+    <AuthenticationType>default</AuthenticationType>
+    <alwaysSendBackAuthenticatedListOfIdPs>false</alwaysSendBackAuthenticatedListOfIdPs>
+    <UseTenantDomainInUsername>false</UseTenantDomainInUsername>
+    <UseUserstoreDomainInRoles>true</UseUserstoreDomainInRoles>
+    <UseUserstoreDomainInUsername>false</UseUserstoreDomainInUsername>
+    <SkipConsent>false</SkipConsent>
+    <skipLogoutConsent>false</skipLogoutConsent>
+    <EnableAuthorization>false</EnableAuthorization>
+  </LocalAndOutBoundAuthenticationConfig>
+  <RequestPathAuthenticatorConfigs/>
+  <InboundProvisioningConfig>
+    <ProvisioningUserStore/>
+    <IsProvisioningEnabled>false</IsProvisioningEnabled>
+    <IsDumbModeEnabled>false</IsDumbModeEnabled>
+  </InboundProvisioningConfig>
+  <OutboundProvisioningConfig>
+    <ProvisioningIdentityProviders/>
+  </OutboundProvisioningConfig>
+  <ClaimConfig>
+    <RoleClaimURI/>
+    <LocalClaimDialect>true</LocalClaimDialect>
+    <IdpClaim/>
+    <ClaimMappings/>
+    <AlwaysSendMappedLocalSubjectId>false</AlwaysSendMappedLocalSubjectId>
+    <SPClaimDialects/>
+  </ClaimConfig>
+  <PermissionAndRoleConfig>
+    <Permissions/>
+    <RoleMappings/>
+    <IdpRoles/>
+  </PermissionAndRoleConfig>
+  <IsSaaSApp>false</IsSaaSApp>
+  <ImageUrl/>
+  <AccessUrl/>
+  <IsDiscoverable>false</IsDiscoverable>
+</ServiceProvider>
+`;
+        xmlDoc = $.parseXML(text);
+        $xml = $(xmlDoc);
+        x = document.getElementById("item_1");
+        y = document.getElementById("item_input");
+        var samlRequest = `{SAML_REQUEST}`;
+        var samlResponse = `{SAML_RESPONSE}`;
+        var oidcAuthzRequest = `{"response_type":"code","redirect_uri":"http://localhost.com:8080/pickup-dispatch/oauth2client","scope":"openid","client_id":"Yj93Wkf3hVZjhaWHsXfZmKGnuUoa","tocommonauth":false,"isPassiveAuthentication":false,"forceAuthenticate":false}`;
+        var oidcAuthzResponse = `{"OIDCAuthzResponse":"http://localhost.com:8080/pickup-dispatch/oauth2client?code=a303e288-68aa-3595-b4a9-98e15a93682f&session_state=371d5751d51639eedb872a719f6526883f6c9090ca29320ca709c2f61d6c9479.vu3LzHN8bO2Iwny4bS7ADA"}`;
+        var oidcTokenRequest = `{"requestParameters":{"requestParameters":{}},"httpRequestHeaders":[{"name":"content-type","values":["application/x-www-form-urlencoded"]},{"name":"cache-control","values":["no-cache"]},{"name":"pragma","values":["no-cache"]},{"name":"user-agent","values":["Java/1.8.0_242"]},{"name":"host","values":["localhost:9443"]},{"name":"accept","values":["text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2"]},{"name":"connection","values":["keep-alive"]},{"name":"content-length","values":["233"]}],"oauth.client.authentication.context":{}}`;
+        var oidcTokenResponse = `{"expiresIn":3053,"tokenId":"aabf28e6-49dc-47ca-81fd-20b2fbd7b6ab","callbackURI":"http://localhost.com:8080/pickup-dispatch/oauth2client","expiresInMillis":3053533,"idToken":"eyJ4NXQiOiJNell4TW1Ga09HWXdNV0kwWldObU5EY3hOR1l3WW1NNFpUQTNNV0kyTkRBelpHUXpOR00wWkdSbE5qSmtPREZrWkRSaU9URmtNV0ZoTXpVMlpHVmxOZyIsImtpZCI6Ik16WXhNbUZrT0dZd01XSTBaV05tTkRjeE5HWXdZbU00WlRBM01XSTJOREF6WkdRek5HTTBaR1JsTmpKa09ERmtaRFJpT1RGa01XRmhNelUyWkdWbE5nX1JTMjU2IiwiYWxnIjoiUlMyNTYifQ.eyJhdF9oYXNoIjoiYldOUE96ZWtQclg3MVdGajd5YVpXQSIsImF1ZCI6IllqOTNXa2YzaFZaamhhV0hzWGZabUtHbnVVb2EiLCJjX2hhc2giOiJ2bnB1ZmpDUENKd3Y0bkdQMmx4NS13Iiwic3ViIjoiYWRtaW4iLCJuYmYiOjE1ODc1OTI3MDksImF6cCI6IllqOTNXa2YzaFZaamhhV0hzWGZabUtHbnVVb2EiLCJhbXIiOlsiQmFzaWNBdXRoZW50aWNhdG9yIl0sImlzcyI6Imh0dHBzOlwvXC9sb2NhbGhvc3Q6OTQ0M1wvb2F1dGgyXC90b2tlbiIsImV4cCI6MTU4NzU5NjMwOSwiaWF0IjoxNTg3NTkyNzA5LCJzaWQiOiI3NTdkN2JjYy0zNjVhLTRmZWQtOWRlMy0zOWQzNTRiYWM2OWIifQ.e_Ljx-MmIiRPyuU9zDSe66O9qCo3RYUBlMnR2s2AsucjpsvyGxp0cKSFX6eLEYcE2inBmJrEqkDybTVzeVWYL0ZPf65Bcac3COv1wnWrUCEtP_iBnSR0ScOARDSsG-t9ZrOwSEKptyt6ItlsgxSNZE3vrn7hWojTTYQmkh1Cnhncd3EXE0RJqieIGsitqsbmZakuAprLyfQscv92UznS3mbosbKQRTNSJKUiP6y3uxHsIw6fjOTZoHyUBh5bpxTHZmW9Ajq3xHl8L9WZJpx8Dz-TzeCGqIH761eQlLUMg0FoQTw796qGHIz8vB4c-E05ZcrzAx30jYUFi9FSviD0zg","idTokenDecoded":{"HEADER":"{\"x5t\":\"MzYxMmFkOGYwMWI0ZWNmNDcxNGYwYmM4ZTA3MWI2NDAzZGQzNGM0ZGRlNjJkODFkZDRiOTFkMWFhMzU2ZGVlNg\",\"kid\":\"MzYxMmFkOGYwMWI0ZWNmNDcxNGYwYmM4ZTA3MWI2NDAzZGQzNGM0ZGRlNjJkODFkZDRiOTFkMWFhMzU2ZGVlNg_RS256\",\"alg\":\"RS256\"}","PAYLOAD":"{\"at_hash\":\"bWNPOzekPrX71WFj7yaZWA\",\"aud\":\"Yj93Wkf3hVZjhaWHsXfZmKGnuUoa\",\"c_hash\":\"vnpufjCPCJwv4nGP2lx5-w\",\"sub\":\"admin\",\"nbf\":1587592709,\"azp\":\"Yj93Wkf3hVZjhaWHsXfZmKGnuUoa\",\"amr\":[\"BasicAuthenticator\"],\"iss\":\"https:\\/\\/localhost:9443\\/oauth2\\/token\",\"exp\":1587596309,\"iat\":1587592709,\"sid\":\"757d7bcc-365a-4fed-9de3-39d354bac69b\"}"},"authorizedScopes":"openid","accessToken":"6e574587-5971-3e75-ab11-472e7b7a1723","error":false,"refreshToken":"bbbfb5ef-57a1-3483-b640-6749eb4e0f1e"}`;
+
+        $xml.find("InboundAuthenticationConfig").find("InboundAuthenticationRequestConfigs").find("InboundAuthenticationRequestConfig").each(function () {
+
+            var $row = $(this),
+                name = $row.find("column1").text(),
+                job = $row.find("InboundAuthType").text();
+
+
+            if (job == "samlsso") {
+                x.innerHTML += `<div class="card" id="samlsso-card" style="margin: 20px">
+                           <div class="text-center card-header-pills">
+                               <div><b>` + job + `</b></div>
+                            </div>
+                        </div>`;
+
+                addConfig(samlRequest, samlResponse);
+            } else if (job == "openid") {
+                x.innerHTML += `<div class="card"  style="margin: 20px" id="oidc-card">
+                      <div class="card"  id="oidc-label">
+                        <b>` + job + `</b>
+                      </div>
+                        <div class="card-body" style="padding: 10px">
+                            <div class="card" style="margin-bottom: 5px; padding: 10px">
+                                    <div class="text-center"><h6>Authz Endpoint</h6></div>
+
+                                <div style="padding-bottom: 10px"><button disabled id="authz-req-btn" class="btn btn-secondary btn-xs ">Request</button></div>
+                                <div><button disabled id="authz-res-btn" class="btn btn-secondary btn-xs ">Response</button></div>
+                            </div>
+                            <div class="card" style="padding: 10px">
+                             <div class="text-center"><h6>Token Endpoint</h6></div>
+                                <div style="padding-bottom: 10px"><button disabled id="token-req-btn" class="btn btn-secondary btn-xs ">Request</button></div>
+                                <div><button disabled id="token-res-btn" class="btn btn-secondary btn-xs ">Response</button></div>
+                            </div>
+                        </div>
+                        </div>`;
+                addOIDCConfig(oidcAuthzRequest, oidcAuthzResponse, oidcTokenRequest, oidcTokenResponse);
+                $('#start-req-btn').hide();
+                $('#end-res-btn').hide();
+            } else {
+                x.innerHTML += `<div class="card" style="margin: 20px">
+                           <div class="text-center card-header-pills">
+                               <div><b>` + job + `</b></div>
+                            </div>
+                        </div>`;
+            }
+
+            Sathi
+
+        });
+
+
+        jsPlumb.ready(function () {
+                /*First Instance*/
+                var zeroInstance = jsPlumb.getInstance();
+
+                zeroInstance.importDefaults({
+                        ConnectionsDetachable: false,
+                        Connector: ["Straight", {
+                            curviness: 150
+                        }
+
+                        ],
+                        Anchors: ["BottomCenter", "TopCenter"]
+                    }
+                );
+
+                zeroInstance.connect({
+                        ConnectionsDetachable: false,
+                        source: "start",
+                        target: "item_1",
+                        scope: "someScope"
+                    }
+                );
+
+                var firstInstance = jsPlumb.getInstance();
+
+                firstInstance.importDefaults({
+                        ConnectionsDetachable: false,
+                        Connector: ["Straight", {
+                            curviness: 20,
+                            stub: 12
+                        }
+
+                        ],
+                        Anchors: ["BottomCenter", "TopCenter"]
+                    }
+                );
+
+
+                firstInstance.connect({
+                        source: "item_1",
+                        target: "stop",
+                        scope: "someScope"
+                    }
+                );
+            }
+        );
+
+    });
+
+</script>
+
+</html>
+

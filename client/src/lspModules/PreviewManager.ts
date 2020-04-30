@@ -105,6 +105,10 @@ export class PreviewManager {
         return format(htmlCode, {
             SAML_REQUEST: DebugConstants.SAML_REQUEST_HTML,
             SAML_RESPONSE: DebugConstants.SAML_RESPONSE_HTML,
+            OIDC_AUTHZ_REQUEST : DebugConstants.OIDC_AUTHZ_REQUEST_HTML,
+            OIDC_AUTHZ_RESPONSE : DebugConstants.OIDC_AUTHZ_RESPONSE_HTML,
+            OIDC_TOKEN_REQUEST : DebugConstants.OIDC_TOKEN_REQUEST_HTML,
+            OIDC_TOKEN_RESPONSE : DebugConstants.OIDC_TOKEN_RESPONSE_HTML,
             myXML: xmlCode,
             myfilepath: filepath,
             pathCss,

@@ -27,6 +27,14 @@ export class DebugConstants {
     public static readonly SAML_RESPONSE = "SAMLResponse";
     public static readonly SAML_REQUEST_HTML = `{SAML_REQUEST}`;
     public static readonly SAML_RESPONSE_HTML = `{SAML_RESPONSE}`;
+    public static readonly OIDC_AUTHZ_REQUEST_HTML = `{OIDC_AUTHZ_REQUEST}`;
+    public static readonly OIDC_AUTHZ_RESPONSE_HTML = `{OIDC_AUTHZ_RESPONSE}`;
+    public static readonly OIDC_TOKEN_REQUEST_HTML = `{OIDC_TOKEN_REQUEST}`;
+    public static readonly OIDC_TOKEN_RESPONSE_HTML = `{OIDC_TOKEN_RESPONSE}`;
+    public static readonly OIDC_AUTHZ_REQUEST = "OIDCAuthzRequest";
+    public static readonly OIDC_AUTHZ_RESPONSE = "OIDCAuthzResponse";
+    public static readonly OIDC_TOKEN_REQUEST = "OIDCTokenRequest";
+    public static readonly OIDC_TOKEN_RESPONSE = "OIDCTokenResponse";
     public static readonly LOCAL_AND_OUTBOUND_AUTHENTICATION_CONFIG = `LocalAndOutBoundAuthenticationConfig`;
     public static readonly AUTHENTICATION_SCRIPTS = `AuthenticationScript`;
     public static readonly SCRIPT_FILE = `scriptFile`;

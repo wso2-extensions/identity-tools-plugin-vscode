@@ -275,6 +275,10 @@ export class IdentityServerDebugSession extends LoggingDebugSession {
                         const newHtml = format(currentHtml, {
                             SAML_REQUEST: this.escapeHtml(element.value),
                             SAML_RESPONSE: DebugConstants.SAML_RESPONSE_HTML,
+                            OIDC_AUTHZ_REQUEST :  DebugConstants.OIDC_AUTHZ_REQUEST_HTML,
+                            OIDC_AUTHZ_RESPONSE : DebugConstants.OIDC_AUTHZ_RESPONSE_HTML,
+                            OIDC_TOKEN_REQUEST : DebugConstants.OIDC_TOKEN_REQUEST_HTML,
+                            OIDC_TOKEN_RESPONSE : DebugConstants.OIDC_TOKEN_RESPONSE_HTML,
                         });
                         panel.webview.html = newHtml;
                         viewPanelHolder.setCurrentHtml(newHtml);
@@ -286,7 +290,70 @@ export class IdentityServerDebugSession extends LoggingDebugSession {
                         const currentHtml = viewPanelHolder.getCurrentHtml();
                         const newHtml = format(currentHtml, {
                             SAML_RESPONSE: this.escapeHtml(element.value),
+                            OIDC_AUTHZ_REQUEST :  DebugConstants.OIDC_AUTHZ_REQUEST_HTML,
+                            OIDC_AUTHZ_RESPONSE : DebugConstants.OIDC_AUTHZ_RESPONSE_HTML,
+                            OIDC_TOKEN_REQUEST : DebugConstants.OIDC_TOKEN_REQUEST_HTML,
+                            OIDC_TOKEN_RESPONSE : DebugConstants.OIDC_TOKEN_RESPONSE_HTML,
 
+                        });
+                        panel.webview.html = newHtml;
+                        viewPanelHolder.setCurrentHtml(newHtml);
+                    } else if (element.name === DebugConstants.OIDC_AUTHZ_REQUEST) {
+                        const viewPanelHolderDictonary = PreviewManager.getInstance().getPreviewManagers();
+                        const viewPanelHolder = viewPanelHolderDictonary.get(
+                            path.parse(this.iamRemoteRuntime.getSourceFile()).name);
+                        const panel = viewPanelHolder.getPanel();
+                        const currentHtml = viewPanelHolder.getCurrentHtml();
+                        const newHtml = format(currentHtml, {
+                            SAML_REQUEST: DebugConstants.SAML_REQUEST_HTML,
+                            SAML_RESPONSE: DebugConstants.SAML_RESPONSE_HTML,
+                            OIDC_AUTHZ_REQUEST : JSON.stringify(element.value),
+                            OIDC_AUTHZ_RESPONSE : DebugConstants.OIDC_AUTHZ_RESPONSE_HTML,
+                            OIDC_TOKEN_REQUEST : DebugConstants.OIDC_TOKEN_REQUEST_HTML,
+                            OIDC_TOKEN_RESPONSE : DebugConstants.OIDC_TOKEN_RESPONSE_HTML,
+                        });
+                        panel.webview.html = newHtml;
+                        viewPanelHolder.setCurrentHtml(newHtml);
+                    } else if (element.name === DebugConstants.OIDC_AUTHZ_RESPONSE &&
+                        !element.value.includes("oauth2_consent.do?") ) {
+                        const viewPanelHolderDictonary = PreviewManager.getInstance().getPreviewManagers();
+                        const viewPanelHolder = viewPanelHolderDictonary.get(
+                            path.parse(this.iamRemoteRuntime.getSourceFile()).name);
+                        const panel = viewPanelHolder.getPanel();
+                        const currentHtml = viewPanelHolder.getCurrentHtml();
+                        const newHtml = format(currentHtml, {
+                            SAML_REQUEST: DebugConstants.SAML_REQUEST_HTML,
+                            SAML_RESPONSE: DebugConstants.SAML_RESPONSE_HTML,
+                            OIDC_AUTHZ_RESPONSE : `{"`+element.name+`":"`+element.value+`"}`,
+                            OIDC_TOKEN_REQUEST : DebugConstants.OIDC_TOKEN_REQUEST_HTML,
+                            OIDC_TOKEN_RESPONSE : DebugConstants.OIDC_TOKEN_RESPONSE_HTML,
+                        });
+                        panel.webview.html = newHtml;
+                        viewPanelHolder.setCurrentHtml(newHtml);
+                    } else if (element.name === DebugConstants.OIDC_TOKEN_REQUEST) {
+                        const viewPanelHolderDictonary = PreviewManager.getInstance().getPreviewManagers();
+                        const viewPanelHolder = viewPanelHolderDictonary.get(
+                            path.parse(this.iamRemoteRuntime.getSourceFile()).name);
+                        const panel = viewPanelHolder.getPanel();
+                        const currentHtml = viewPanelHolder.getCurrentHtml();
+                        const newHtml = format(currentHtml, {
+                            SAML_REQUEST: DebugConstants.SAML_REQUEST_HTML,
+                            SAML_RESPONSE: DebugConstants.SAML_RESPONSE_HTML,
+                            OIDC_TOKEN_REQUEST : JSON.stringify(element.value),
+                            OIDC_TOKEN_RESPONSE : DebugConstants.OIDC_TOKEN_RESPONSE_HTML,
+                        });
+                        panel.webview.html = newHtml;
+                        viewPanelHolder.setCurrentHtml(newHtml);
+                    } else if (element.name === DebugConstants.OIDC_TOKEN_RESPONSE) {
+                        const viewPanelHolderDictonary = PreviewManager.getInstance().getPreviewManagers();
+                        const viewPanelHolder = viewPanelHolderDictonary.get(
+                            path.parse(this.iamRemoteRuntime.getSourceFile()).name);
+                        const panel = viewPanelHolder.getPanel();
+                        const currentHtml = viewPanelHolder.getCurrentHtml();
+                        const newHtml = format(currentHtml, {
+                            SAML_REQUEST: DebugConstants.SAML_REQUEST_HTML,
+                            SAML_RESPONSE: DebugConstants.SAML_RESPONSE_HTML,
+                            OIDC_TOKEN_RESPONSE : JSON.stringify(element.value),
                         });
                         panel.webview.html = newHtml;
                         viewPanelHolder.setCurrentHtml(newHtml);

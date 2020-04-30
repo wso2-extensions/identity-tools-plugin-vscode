@@ -1,0 +1,540 @@
+<!--
+  ~ Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~
+  ~ WSO2 Inc. licenses this file to you under the Apache License,
+  ~ Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="css/fontawesome.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="css/simpleXML.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="css/custom.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="css/jsonview.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="js/jquery-3.4.1.js"></script>
+    <script src="js//popper.js"></script>
+    <script src="js//fontawesome.js"></script>
+    <script src="js/jsplumb.min.js"></script>
+    <script src="js/simpleXML.js"></script>
+    <script src="js/jsonview.js"></script>
+
+    <meta charset="UTF-8">
+
+    <title>Diagram</title>
+    <style>
+
+    </style>
+
+</head>
+
+<body class="body">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <p id="a"></p>
+            <div class="block">
+                <div id="start" class="card item_start" >
+                    <div class="text-center">
+                        <div class="card-header" style="background: transparent">
+                            <b>Start </b>
+                        </div>
+                        <div class="text-center card-footer" style="background: transparent">
+                            <button disabled id="req-btn"  class="btn btn-secondary btn-xs ">Request</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block">
+                <div id="item_1" class="text-center card-body item"><span class="badge badge-info">Inbound Authentication Config</span>
+
+                </div>
+            </div>
+
+            <div class="block">
+
+                <div id="item_input" class="text-center card-body  itemin"><span class="badge badge-info">Local And OutBound Authentication Config</span>
+
+                </div>
+            </div>
+
+            <div class="block">
+                <div id="stop" class="card item_start" >
+                    <div class="text-center">
+                        <div class="card-header" style="background: transparent">
+                            <button disabled id="res-btn" class="btn btn-secondary btn-xs ">Response</button>
+                        </div>
+                        <div class="text-center card-footer" style="background: transparent">
+                            <b>End</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="commmon-modal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="modal-body" class="pre-scrollable modal-body">
+                <div id="simpleUseCase"></div>
+                <div class="root"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="js/bootstrap.min.js"></script>
+<script>
+    var timer;
+
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+
+    function buttonClick(elem, title, body, type) {
+        $(".block").on("click", elem, function () {
+            showmodal(title, body , type);
+        });
+
+
+    }
+
+
+    function showmodal(title, body, type) {
+        // show Modal
+        clearInterval(timer);
+        $('#modal-title').text(title);
+
+        if (type=="xml") {
+            $("#simpleUseCase").simpleXML({
+                xmlString: decodeHtml(body),
+                collapsedText: "...",
+            });
+        } else if(type=="json") {
+            let data = body;
+            let target = '.root';
+            jsonView.format(data, target);
+        }
+
+        $('#commmon-modal').modal('show');
+    }
+
+    function blinking(elm) {
+        timer = setInterval(blink, 10);
+
+        function blink() {
+            jQuery(elm).fadeOut(400, function () {
+                jQuery(elm).fadeIn(400);
+            });
+        }
+    }
+
+
+    function addSAMLSSOConfig(job, req, res) {
+
+        const htmlString = `  <div class="card" style="margin: 20px">
+                               <div class="text-center card-header-pills">
+                                   <button disabled id="saml-req-btn"  class="btn btn-primary btn-xs ">SAML Request</button>
+                                   <div><b id="inbound-auth-name"></b></div>
+                                    <button disabled id="saml-res-btn" class="btn btn-primary btn-xs ">SAML Response</button>
+                                </div>
+                            </div>`;
+
+        var dom = document.createElement("div");
+        dom.innerHTML = htmlString.trim();
+        var inboundAuthName = dom.querySelector('#inbound-auth-name');
+        inboundAuthName.innerHTML = job;
+        if (!req.includes("SAML_REQUEST")) {
+            var query = '#saml-req-btn';
+            var samlRequestBtn = dom.querySelector(query);
+            samlRequestBtn.disabled = false;
+            samlRequestBtn.classList.remove("btn-secondary");
+            samlRequestBtn.add("btn-primary");
+            buttonClick(query, `SAML Request`, req, "xml");
+        }
+
+        if (!res.includes("SAML_RESPONSE")) {
+            clearInterval(timer);
+            var query = '#saml-res-btn';
+            var samlResponsetBtn = dom.querySelector(query);
+            samlResponsetBtn.disabled = false;
+            samlRequestBtn.classList.remove("btn-secondary");
+            samlRequestBtn.add("btn-primary");
+            buttonClick(query, `SAML Response`, req, "xml");
+            blinking('#saml-res-btn')
+        }
+
+        return dom.innerHTML;
+    }
+    function addConfig(req,res){
+        if (!req.includes("SAML_REQUEST")){
+            var card = document.getElementById("samlsso-card");
+            card.classList.add("alert-primary");
+            var reqBtn = document.getElementById("req-btn");
+            reqBtn.disabled=false;
+            reqBtn.classList.remove("btn-secondary");
+            reqBtn.classList.add("btn-primary");
+            var query='#req-btn';
+            buttonClick(query,`SAML Request`,req,"xml");
+            blinking(query)
+        }
+
+        if (!res.includes("SAML_RESPONSE")){
+            clearInterval(timer);
+            var resBtn = document.getElementById("res-btn");
+            resBtn.disabled=false;
+            resBtn.classList.remove("btn-secondary");
+            resBtn.classList.add("btn-primary");
+            var query='#res-btn';
+            buttonClick(query,`SAML Response`,req,"xml");
+            blinking(query)
+        }
+    }
+
+    function addOIDCConfig(oidcAuthzRequest, oidcAuthzResponse, oidcTokenRequest, oidcTokenResponse){
+        if (!oidcAuthzRequest.includes("OIDC_AUTHZ_REQUEST")){
+            var card = document.getElementById("oidc-card");
+            card.classList.add("alert-primary");
+            var reqBtn = document.getElementById("authz-req-btn");
+            reqBtn.disabled=false;
+            reqBtn.classList.remove("btn-secondary");
+            reqBtn.classList.add("btn-primary");
+            var query='#authz-req-btn';
+            buttonClick(query,`OIDC Authorization Request`, oidcAuthzRequest, "json");
+            blinking(query)
+        }
+        if (!oidcAuthzResponse.includes("OIDC_AUTHZ_RESPONSE")){
+            clearInterval(timer);
+            var resBtn = document.getElementById("authz-res-btn");
+            resBtn.disabled=false;
+            resBtn.classList.remove("btn-secondary");
+            resBtn.classList.add("btn-primary");
+            var query='#authz-res-btn';
+            buttonClick(query,`OIDC Authorization Response`,oidcAuthzResponse, "json");
+            blinking(query)
+        }
+        if (!oidcTokenRequest.includes("OIDC_TOKEN_REQUEST")){
+            clearInterval(timer);
+            var resBtn = document.getElementById("token-req-btn");
+            resBtn.disabled=false;
+            resBtn.classList.remove("btn-secondary");
+            resBtn.classList.add("btn-primary");
+            var query='#token-req-btn';
+            buttonClick(query,`OIDC Token Request`,oidcTokenRequest, "json");
+            blinking(query)
+        }
+        if (!oidcTokenResponse.includes("OIDC_TOKEN_RESPONSE")){
+            clearInterval(timer);
+            var resBtn = document.getElementById("token-res-btn");
+            resBtn.disabled=false;
+            resBtn.classList.remove("btn-secondary");
+            resBtn.classList.add("btn-primary");
+            var query='#token-res-btn';
+            buttonClick(query,`OIDC Token Response`,oidcTokenResponse, "json");
+            blinking(query)
+        }
+    }
+
+    $(document).ready(function () {
+        var filepath = '/home/sathiyakugan/Documents/Projects/identity-developer-tools/modules/vscode-extensions/Extension Development Host/IAM/Apps/dispatch_saml.authxml';
+        var text = `<?xml version="1.0" encoding="UTF-8"?><ServiceProvider>
+  <ApplicationName>dispatch_saml</ApplicationName>
+  <Description/>
+  <JwksUri/>
+  <InboundAuthenticationConfig>
+    <InboundAuthenticationRequestConfigs>
+      <InboundAuthenticationRequestConfig>
+        <InboundAuthKey>dispatch_saml</InboundAuthKey>
+        <InboundAuthType>passivests</InboundAuthType>
+        <InboundConfigType>standardAPP</InboundConfigType>
+        <Properties/>
+      </InboundAuthenticationRequestConfig>
+      <InboundAuthenticationRequestConfig>
+        <InboundAuthKey>dispatch_saml</InboundAuthKey>
+        <InboundAuthType>openid</InboundAuthType>
+        <InboundConfigType>standardAPP</InboundConfigType>
+        <Properties/>
+      </InboundAuthenticationRequestConfig>
+      <InboundAuthenticationRequestConfig>
+        <InboundAuthKey>saml2-web-app-pickup-dispatch.com</InboundAuthKey>
+        <InboundAuthType>samlsso</InboundAuthType>
+        <InboundConfigType>standardAPP</InboundConfigType>
+        <inboundConfiguration><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<samlssoServiceProviderDTO>
+    <issuer>saml2-web-app-pickup-dispatch.com</issuer>
+    <assertionConsumerUrls>
+        <assertionConsumerUrl>http://localhost.com:8080/saml2-web-app-pickup-dispatch.com/home.jsp</assertionConsumerUrl>
+    </assertionConsumerUrls>
+    <defaultAssertionConsumerUrl>http://localhost.com:8080/saml2-web-app-pickup-dispatch.com/home.jsp</defaultAssertionConsumerUrl>
+    <certAlias>wso2carbon</certAlias>
+    <loginPageURL></loginPageURL>
+    <attributeConsumingServiceIndex>633909928</attributeConsumingServiceIndex>
+    <doSingleLogout>true</doSingleLogout>
+    <doSignAssertions>true</doSignAssertions>
+    <doSignResponse>true</doSignResponse>
+    <doFrontChannelLogout>false</doFrontChannelLogout>
+    <requestedClaims/>
+    <requestedAudiences/>
+    <requestedRecipients/>
+    <enableAttributeProfile>true</enableAttributeProfile>
+    <isAssertionQueryRequestProfileEnabled>false</isAssertionQueryRequestProfileEnabled>
+    <enableAttributesByDefault>true</enableAttributesByDefault>
+    <nameIDFormat>urn/oasis/names/tc/SAML/1.1/nameid-format/emailAddress</nameIDFormat>
+    <idPInitSSOEnabled>false</idPInitSSOEnabled>
+    <idPInitSLOEnabled>false</idPInitSLOEnabled>
+    <idpInitSLOReturnToURLs/>
+    <doEnableEncryptedAssertion>false</doEnableEncryptedAssertion>
+    <doValidateSignatureInRequests>true</doValidateSignatureInRequests>
+    <signingAlgorithmURI>http://www.w3.org/2000/09/xmldsig#rsa-sha1</signingAlgorithmURI>
+    <digestAlgorithmURI>http://www.w3.org/2000/09/xmldsig#sha1</digestAlgorithmURI>
+    <assertionEncryptionAlgorithmURI>http://www.w3.org/2001/04/xmlenc#aes256-cbc</assertionEncryptionAlgorithmURI>
+    <keyEncryptionAlgorithmURI>http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p</keyEncryptionAlgorithmURI>
+    <enableSAML2ArtifactBinding>false</enableSAML2ArtifactBinding>
+    <doValidateSignatureInArtifactResolve>false</doValidateSignatureInArtifactResolve>
+    <samlECP>false</samlECP>
+</samlssoServiceProviderDTO>
+]]></inboundConfiguration>
+        <Properties>
+          <Property>
+            <Name>attrConsumServiceIndex</Name>
+            <Value>633909928</Value>
+            <IsConfidential>false</IsConfidential>
+            <Required>false</Required>
+            <DisplayOrder>0</DisplayOrder>
+            <IsAdvanced>false</IsAdvanced>
+            <Options/>
+            <SubProperties/>
+          </Property>
+        </Properties>
+      </InboundAuthenticationRequestConfig>
+    </InboundAuthenticationRequestConfigs>
+  </InboundAuthenticationConfig>
+  <LocalAndOutBoundAuthenticationConfig>
+    <AuthenticationSteps/>
+    <AuthenticationType>default</AuthenticationType>
+    <alwaysSendBackAuthenticatedListOfIdPs>false</alwaysSendBackAuthenticatedListOfIdPs>
+    <UseTenantDomainInUsername>false</UseTenantDomainInUsername>
+    <UseUserstoreDomainInRoles>true</UseUserstoreDomainInRoles>
+    <UseUserstoreDomainInUsername>false</UseUserstoreDomainInUsername>
+    <SkipConsent>false</SkipConsent>
+    <skipLogoutConsent>false</skipLogoutConsent>
+    <EnableAuthorization>false</EnableAuthorization>
+  </LocalAndOutBoundAuthenticationConfig>
+  <RequestPathAuthenticatorConfigs/>
+  <InboundProvisioningConfig>
+    <ProvisioningUserStore/>
+    <IsProvisioningEnabled>false</IsProvisioningEnabled>
+    <IsDumbModeEnabled>false</IsDumbModeEnabled>
+  </InboundProvisioningConfig>
+  <OutboundProvisioningConfig>
+    <ProvisioningIdentityProviders/>
+  </OutboundProvisioningConfig>
+  <ClaimConfig>
+    <RoleClaimURI/>
+    <LocalClaimDialect>true</LocalClaimDialect>
+    <IdpClaim/>
+    <ClaimMappings/>
+    <AlwaysSendMappedLocalSubjectId>false</AlwaysSendMappedLocalSubjectId>
+    <SPClaimDialects/>
+  </ClaimConfig>
+  <PermissionAndRoleConfig>
+    <Permissions/>
+    <RoleMappings/>
+    <IdpRoles/>
+  </PermissionAndRoleConfig>
+  <IsSaaSApp>false</IsSaaSApp>
+  <ImageUrl/>
+  <AccessUrl/>
+  <IsDiscoverable>false</IsDiscoverable>
+</ServiceProvider>
+`;
+        xmlDoc = $.parseXML(text);
+        $xml = $(xmlDoc);
+        x = document.getElementById("item_1");
+        y = document.getElementById("item_input");
+        var samlRequest= `{SAML_REQUEST}`;
+        var samlResponse= `{SAML_RESPONSE}`;
+        var oidcAuthzRequest=`{"phonetype":"N95","cat":{"phonetype":{"phonetype":"N95","cat":"WP"},"cat":{"phonetype":"N95","cat":"WP"}}}`;
+        var oidcAuthzResponse=`{OIDC_AUTHZ_RESPONSE}`;
+        var oidcTokenRequest=`{OIDC_TOKEN_REQUEST}`;
+        var oidcTokenResponse=`{OIDC_TOKEN_RESPONSE}`;
+
+        $xml.find("InboundAuthenticationConfig").find("InboundAuthenticationRequestConfigs").find("InboundAuthenticationRequestConfig").each(function () {
+
+            var $row = $(this),
+                name = $row.find("column1").text(),
+                job = $row.find("InboundAuthType").text();
+
+            var $row = $(this),
+                name = $row.find("column1").text(),
+                job = $row.find("InboundAuthType").text();
+            if (job == "samlsso") {
+                x.innerHTML += `<div class="card" id="samlsso-card" style="margin: 20px">
+                           <div class="text-center card-header-pills">
+                               <div><b>` + job + `</b></div>
+                            </div>
+                        </div>`;
+
+                addConfig(samlRequest,samlResponse);
+            } else if (job == "openid") {
+                x.innerHTML += `
+                <div class="card" id="oidc-card" style="margin: 20px">
+                    <div class="dropdown d-inline-block">
+                        <div class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> `+job+` </div>
+                        <div class="text-center dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <div class="card" style="margin: 10px; padding: 10px">
+                                <div><button disabled id="authz-req-btn" class="btn btn-secondary btn-xs ">Request</button></div>
+                                <div class="card">
+                                    <div class="text-center card-header-pills">Authz Endpoint</div>
+                                </div>
+                                <div><button disabled id="authz-res-btn" class="btn btn-secondary btn-xs ">Response</button></div>
+                            </div>
+                            <div class="card" style="margin: 10px; padding: 10px">
+                                <div>
+                                    <button disabled id="token-req-btn" class="btn btn-secondary btn-xs ">Request</button>
+                                </div>
+                                <div class="card">
+                                    <div class="text-center card-header-pills">Token Endpoint</div>
+                                </div>
+                                <div><button disabled id="token-res-btn" class="btn btn-secondary btn-xs ">Response</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                addOIDCConfig(oidcAuthzRequest, oidcAuthzResponse, oidcTokenRequest, oidcTokenResponse);
+            }else {
+                x.innerHTML += `<div class="card" style="margin: 20px">
+                           <div class="text-center card-header-pills">
+                               <div><b>` + job + `</b></div>
+                            </div>
+                        </div>`;
+            }
+
+
+        });
+
+        var executeStep = 0;
+        $xml.find("LocalAndOutBoundAuthenticationConfig").find("AuthenticationSteps").find("AuthenticationStep").each(function () {
+            executeStep += 1;
+            var $row = $(this),
+                name = $row.find("column1").text(),
+                job = $row.find("LocalAuthenticatorConfigs").find("Name").text();
+            y.innerHTML += `                        <div class="card" style="margin: 20px">
+                           <div class="text-center card-header-pills">
+                               <div><b>` + job + `</b></div>
+                            </div>
+                        </div>`;
+        });
+        var code = $xml.find("LocalAndOutBoundAuthenticationConfig").find("AuthenticationScript").text()
+
+        if (code.length > 0) {
+            z = document.getElementById("item_input");
+            z.innerHTML += ' <input  class="btn btn-primary btn-sm" type="button" value="script" id="openUndefine" >';
+        } else {
+            z = document.getElementById("item_input");
+            z.innerHTML += ' <input  class="btn btn-primary btn-sm" type="button" value="script" id="defaultScript" >';
+        }
+
+
+        jsPlumb.ready(function () {
+                /*First Instance*/
+                var zeroInstance = jsPlumb.getInstance();
+
+                zeroInstance.importDefaults({
+                        ConnectionsDetachable: false,
+                        Connector: ["Straight", {
+                            curviness: 150
+                        }
+
+                        ],
+                        Anchors: ["BottomCenter", "TopCenter"]
+                    }
+                );
+
+                zeroInstance.connect({
+                        ConnectionsDetachable: false,
+                        source: "start",
+                        target: "item_1",
+                        scope: "someScope"
+                    }
+                );
+
+                var firstInstance = jsPlumb.getInstance();
+
+                firstInstance.importDefaults({
+                        ConnectionsDetachable: false,
+                        Connector: ["Straight", {
+                            curviness: 20,
+                            stub: 12
+                        }
+
+                        ],
+                        Anchors: ["BottomCenter", "TopCenter"]
+                    }
+                );
+
+
+                firstInstance.connect({
+                        source: "item_1",
+                        target: "item_input",
+                        scope: "someScope"
+                    }
+                );
+
+                /*Second Instance*/
+                var secondInstance = jsPlumb.getInstance();
+
+                secondInstance.importDefaults({
+                        ConnectionsDetachable: false,
+                        Connector: ["Straight", {
+                            curviness: 150
+                        }
+
+                        ],
+                        Anchors: ["BottomCenter", "TopCenter"]
+                    }
+                );
+
+                secondInstance.connect({
+                        source: "item_input",
+                        target: "stop",
+                        scope: "someScope"
+                    }
+                );
+            }
+        );
+
+    });
+
+</script>
+
+</html>"

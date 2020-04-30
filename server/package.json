@@ -20,5 +20,10 @@
 		"@types/xml2js": "^0.4.5",
 		"vscode": "^1.1.36"
 	},
-	"scripts": {}
+	"scripts": {
+		"preinstall": "npx npm-force-resolutions"
+	},
+	"resolutions": {
+		"minimist": "^1.2.5"
+	}
 }
