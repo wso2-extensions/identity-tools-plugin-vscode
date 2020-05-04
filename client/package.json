@@ -1,9 +1,9 @@
 {
-	"name": "identity-lsp-client",
+	"name": "wso2-is-client",
 	"description": "VSCode extension for Identity Server LSP",
 	"author": "WSO2 Inc.",
 	"license": "Apache 2.0",
-	"version": "0.0.1",
+	"version": "0.5.0-SNAPSHOT",
 	"publisher": "wso2.com",
 	"repository": {},
 	"engines": {

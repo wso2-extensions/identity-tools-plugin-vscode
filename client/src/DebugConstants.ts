@@ -59,6 +59,8 @@ export class DebugConstants {
     public static readonly DEBUG_STOP_ON_DATA_BREAKPOINT = "stopOnDataBreakpoint";
     public static readonly DEBUG_EXCEPTION = "exception";
     public static readonly DEBUG_STOP_ON_EXCEPTION = "stopOnException";
+    public static readonly DEBUG_NO_SAML= "NO SAML Request Added";
+    public static readonly DEBUG_OIDC_CONSENT_URL= "oauth2_consent.do?";
     public static readonly MESSAGE_FILE_SAVED_SUCCESS = "The file has been saved!";
     public static readonly MESSAGE_SERVICE_IMPORT_SUCCESS = "Service has been Successfully imported.";
     public static readonly MESSAGE_SERVICE_IMPORT_ERROR = "Error Populating the Services.";

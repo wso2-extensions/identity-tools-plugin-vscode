@@ -264,9 +264,11 @@ export class IdentityServerDebugSession extends LoggingDebugSession {
             const answer = this.iamRemoteRuntime.fetchVariables(response, args, request);
             answer.then((remoteResponse) => {
                 remoteResponse.body.variables.forEach((element) => {
-
-                    if (element.name === DebugConstants.SAML_REQUEST
-                        && !element.value.includes("NO SAML Request Added")) {
+                    //TODO comparing the value
+                    // Check whether it is unefined.
+                    if (DebugConstants.SAML_REQUEST === element.name
+                        && element.value
+                        && !element.value.includes(DebugConstants.DEBUG_NO_SAML)) {
                         const viewPanelHolderDictonary = PreviewManager.getInstance().getPreviewManagers();
                         const viewPanelHolder = viewPanelHolderDictonary.get(
                             path.parse(this.iamRemoteRuntime.getSourceFile()).name);
@@ -282,7 +284,7 @@ export class IdentityServerDebugSession extends LoggingDebugSession {
                         });
                         panel.webview.html = newHtml;
                         viewPanelHolder.setCurrentHtml(newHtml);
-                    } else if (element.name === DebugConstants.SAML_RESPONSE) {
+                    } else if (DebugConstants.SAML_RESPONSE === element.name) {
                         const viewPanelHolderDictonary = PreviewManager.getInstance().getPreviewManagers();
                         const viewPanelHolder = viewPanelHolderDictonary.get(path.parse(
                             this.iamRemoteRuntime.getSourceFile()).name);
@@ -298,7 +300,7 @@ export class IdentityServerDebugSession extends LoggingDebugSession {
                         });
                         panel.webview.html = newHtml;
                         viewPanelHolder.setCurrentHtml(newHtml);
-                    } else if (element.name === DebugConstants.OIDC_AUTHZ_REQUEST) {
+                    } else if (DebugConstants.OIDC_AUTHZ_REQUEST === element.name) {
                         const viewPanelHolderDictonary = PreviewManager.getInstance().getPreviewManagers();
                         const viewPanelHolder = viewPanelHolderDictonary.get(
                             path.parse(this.iamRemoteRuntime.getSourceFile()).name);
@@ -314,8 +316,9 @@ export class IdentityServerDebugSession extends LoggingDebugSession {
                         });
                         panel.webview.html = newHtml;
                         viewPanelHolder.setCurrentHtml(newHtml);
-                    } else if (element.name === DebugConstants.OIDC_AUTHZ_RESPONSE &&
-                        !element.value.includes("oauth2_consent.do?") ) {
+                    } else if (DebugConstants.OIDC_AUTHZ_RESPONSE ===  element.name
+                        && element.value
+                        && !element.value.includes(DebugConstants.DEBUG_OIDC_CONSENT_URL) ) {
                         const viewPanelHolderDictonary = PreviewManager.getInstance().getPreviewManagers();
                         const viewPanelHolder = viewPanelHolderDictonary.get(
                             path.parse(this.iamRemoteRuntime.getSourceFile()).name);
@@ -330,7 +333,7 @@ export class IdentityServerDebugSession extends LoggingDebugSession {
                         });
                         panel.webview.html = newHtml;
                         viewPanelHolder.setCurrentHtml(newHtml);
-                    } else if (element.name === DebugConstants.OIDC_TOKEN_REQUEST) {
+                    } else if (DebugConstants.OIDC_TOKEN_REQUEST === element.name) {
                         const viewPanelHolderDictonary = PreviewManager.getInstance().getPreviewManagers();
                         const viewPanelHolder = viewPanelHolderDictonary.get(
                             path.parse(this.iamRemoteRuntime.getSourceFile()).name);
@@ -344,7 +347,7 @@ export class IdentityServerDebugSession extends LoggingDebugSession {
                         });
                         panel.webview.html = newHtml;
                         viewPanelHolder.setCurrentHtml(newHtml);
-                    } else if (element.name === DebugConstants.OIDC_TOKEN_RESPONSE) {
+                    } else if (DebugConstants.OIDC_TOKEN_RESPONSE === element.name) {
                         const viewPanelHolderDictonary = PreviewManager.getInstance().getPreviewManagers();
                         const viewPanelHolder = viewPanelHolderDictonary.get(
                             path.parse(this.iamRemoteRuntime.getSourceFile()).name);

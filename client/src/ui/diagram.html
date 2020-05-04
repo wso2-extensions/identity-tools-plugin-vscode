@@ -17,14 +17,9 @@
     <script src="{pathJS}/simpleXML.js"></script>
     <script src="{pathJS}/jsonview.js"></script>
 
-
     <title>Diagram</title>
-    <style>
-
-    </style>
 
 </head>
-
 <body class="body">
 <div class="container">
     <div class="row">
@@ -45,9 +40,8 @@
             </div>
 
             <div class="block">
-                <div id="item_1" class="text-center card-body item">
+                <div id="inbound-auth-div" class="text-center card-body item">
                     <div><b>Inbound Authentication Config</b></div>
-
                 </div>
             </div>
 
@@ -67,7 +61,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal -->
 <div class="modal fade bd-example-modal-lg" id="commmon-modal" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -114,57 +107,68 @@
 <script>
     $(document).ready(function () {
         const vscode = acquireVsCodeApi();
-        var filepath = '{myfilepath}';
-        var text = `{myXML}`;
+        const JOB_TYPE_SAML_SSO = "samlsso";
+        const JOB_TYPE_SAML_OPENID = "openid";
+        let filepath = '{myfilepath}';
+        let text = `{myXML}`;
         xmlDoc = $.parseXML(text);
         $xml = $(xmlDoc);
-        x = document.getElementById("item_1");
+        let inboundAuthElem = document.getElementById("inbound-auth-div");
         y = document.getElementById("item_input");
-        var samlRequest = `{SAML_REQUEST}`;
-        var samlResponse = `{SAML_RESPONSE}`;
-        var oidcAuthzRequest = `{OIDC_AUTHZ_REQUEST}`;
-        var oidcAuthzResponse = `{OIDC_AUTHZ_RESPONSE}`;
-        var oidcTokenRequest = `{OIDC_TOKEN_REQUEST}`;
-        var oidcTokenResponse = `{OIDC_TOKEN_RESPONSE}`;
+        let samlRequest = `{SAML_REQUEST}`;
+        let samlResponse = `{SAML_RESPONSE}`;
+        let oidcAuthzRequest = `{OIDC_AUTHZ_REQUEST}`;
+        let oidcAuthzResponse = `{OIDC_AUTHZ_RESPONSE}`;
+        let oidcTokenRequest = `{OIDC_TOKEN_REQUEST}`;
+        let oidcTokenResponse = `{OIDC_TOKEN_RESPONSE}`;
 
-        $xml.find("InboundAuthenticationConfig").find("InboundAuthenticationRequestConfigs").find("InboundAuthenticationRequestConfig").each(function () {
+        $xml.find("InboundAuthenticationConfig")
+            .find("InboundAuthenticationRequestConfigs")
+            .find("InboundAuthenticationRequestConfig").each(function () {
 
-            var $row = $(this),
-                name = $row.find("column1").text(),
+            let $row = $(this),
                 job = $row.find("InboundAuthType").text();
-
-            if (job == "samlsso") {
-                x.innerHTML += `<div class="card" id="samlsso-card" style="margin: 20px">
+            // make the string constants
+            if (JOB_TYPE_SAML_SSO == job) {
+                // use the jquery  to add the html
+                inboundAuthElem.innerHTML += `
+                        <div class="card" id="samlsso-card" style="margin: 20px">
                            <div class="text-center card-header-pills">
                                <div><b>` + job + `</b></div>
                             </div>
                         </div>`;
 
-                addConfig(samlRequest, samlResponse);
-            } else if (job == "openid") {
-                x.innerHTML += `<div class="card"  style="margin: 20px" id="oidc-card">
-                      <div class="card"  id="oidc-label">
-                        <b>` + job + `</b>
-                      </div>
+                addSAMLSSOConfig(samlRequest, samlResponse);
+            } else if (JOB_TYPE_SAML_OPENID == job) {
+                inboundAuthElem.innerHTML += `
+                    <div class="card" style="margin: 20px" id="oidc-card">
+                        <div class="card" id="oidc-label">
+                            <b>` + job + `</b>
+                        </div>
                         <div class="card-body" style="padding: 10px">
                             <div class="card" style="margin-bottom: 5px; padding: 10px">
-                                    <div class="text-center"><h6>Authz Endpoint</h6></div>
-
+                                <div class="text-center">
+                                    <h6>Authz Endpoint</h6>
+                                </div>
                                 <div style="padding-bottom: 10px"><button disabled id="authz-req-btn" class="btn btn-secondary btn-xs ">Request</button></div>
                                 <div><button disabled id="authz-res-btn" class="btn btn-secondary btn-xs ">Response</button></div>
                             </div>
                             <div class="card" style="padding: 10px">
-                             <div class="text-center"><h6>Token Endpoint</h6></div>
+                                <div class="text-center">
+                                    <h6>Token Endpoint</h6>
+                                </div>
                                 <div style="padding-bottom: 10px"><button disabled id="token-req-btn" class="btn btn-secondary btn-xs ">Request</button></div>
                                 <div><button disabled id="token-res-btn" class="btn btn-secondary btn-xs ">Response</button></div>
                             </div>
                         </div>
-                        </div>`;
+                    </div>
+                        `;
                 addOIDCConfig(oidcAuthzRequest, oidcAuthzResponse, oidcTokenRequest, oidcTokenResponse);
                 $('#start-req-btn').hide();
                 $('#end-res-btn').hide();
             } else {
-                x.innerHTML += `<div class="card" style="margin: 20px">
+                inboundAuthElem.innerHTML += `
+                        <div class="card" style="margin: 20px">
                            <div class="text-center card-header-pills">
                                <div><b>` + job + `</b></div>
                             </div>
@@ -174,20 +178,25 @@
 
         });
 
-        var executeStep = 0;
-        $xml.find("LocalAndOutBoundAuthenticationConfig").find("AuthenticationSteps").find("AuthenticationStep").each(function () {
+        let executeStep = 0;
+        $xml.find("LocalAndOutBoundAuthenticationConfig")
+            .find("AuthenticationSteps")
+            .find("AuthenticationStep").each(function () {
             executeStep += 1;
-            var $row = $(this),
-                name = $row.find("column1").text(),
+            let $row = $(this),
                 job = $row.find("LocalAuthenticatorConfigs").find("Name").text();
-            y.innerHTML += `                        <div class="card" style="margin: 20px">
+            y.innerHTML += `
+                        <div class="card" style="margin: 20px">
                            <div class="text-center card-header-pills">
                                <div><b>` + job + `</b></div>
                             </div>
                         </div>`;
         });
 
-        var code = $xml.find("LocalAndOutBoundAuthenticationConfig").find("AuthenticationScript").text();
+        let code = $xml
+            .find("LocalAndOutBoundAuthenticationConfig")
+            .find("AuthenticationScript")
+            .text();
         if (samlRequest.includes("SAML_REQUEST") && oidcAuthzRequest.includes("OIDC_AUTHZ_REQUEST")) {
             if (code.length > 0) {
                 vscode.postMessage({
@@ -203,7 +212,7 @@
 
         jsPlumb.ready(function () {
                 /*First Instance*/
-                var zeroInstance = jsPlumb.getInstance();
+                let zeroInstance = jsPlumb.getInstance();
 
                 zeroInstance.importDefaults({
                         ConnectionsDetachable: false,
@@ -219,12 +228,12 @@
                 zeroInstance.connect({
                         ConnectionsDetachable: false,
                         source: "start",
-                        target: "item_1",
+                        target: "inbound-auth-div",
                         scope: "someScope"
                     }
                 );
 
-                var firstInstance = jsPlumb.getInstance();
+                let firstInstance = jsPlumb.getInstance();
 
                 firstInstance.importDefaults({
                         ConnectionsDetachable: false,
@@ -240,7 +249,7 @@
 
 
                 firstInstance.connect({
-                        source: "item_1",
+                        source: "inbound-auth-div",
                         target: "stop",
                         scope: "someScope"
                     }
