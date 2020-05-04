@@ -3,7 +3,7 @@
 	"description": "This gives ability to debug the Authentication flows of WSO2 Identity sever.",
 	"author": "WSO2 Inc.",
 	"license": "Apache 2.0",
-	"version": "0.0.2-SNAPSHOT",
+	"version": "0.0.1",
 	"repository": {},
 	"publisher": "wso2",
 	"categories": [],
