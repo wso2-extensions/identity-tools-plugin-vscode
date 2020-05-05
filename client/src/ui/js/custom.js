@@ -50,6 +50,7 @@ function showModal(title, req, res, type) {
             collapsedText: "...",
         });
     } else if (type === JSON) {
+        $('#myTab').show();
         const req_elem = '#req-tab-val';
         const req_elem_menu = '#req-tab-menu';
         const res_elem = '#res-tab-val';
@@ -153,6 +154,7 @@ function addOIDCConfig(oidcAuthzRequest, oidcAuthzResponse, oidcTokenRequest, oi
 
     let curBtn;
     let query;
+
     if (!oidcAuthzRequest.includes(OIDC_AUTHZ_REQUEST)) {
         let card = document.getElementById("oidc-label");
         card.classList.add("alert-primary");

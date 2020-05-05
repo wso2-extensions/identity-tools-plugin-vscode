@@ -120,6 +120,8 @@
         let oidcAuthzResponse = `{OIDC_AUTHZ_RESPONSE}`;
         let oidcTokenRequest = `{OIDC_TOKEN_REQUEST}`;
         let oidcTokenResponse = `{OIDC_TOKEN_RESPONSE}`;
+        let issamlSSO = true;
+        $('#myTab').hide();
 
         $xml.find("InboundAuthenticationConfig")
             .find("InboundAuthenticationRequestConfigs")
@@ -128,8 +130,8 @@
             let $row = $(this),
                 job = $row.find("InboundAuthType").text();
 
-            if (JOB_TYPE_SAML_SSO == job) {
-
+            if (job == JOB_TYPE_SAML_SSO) {
+                issamlSSO=false;
                 inboundAuthElem.innerHTML += `
                         <div class="card" id="samlsso-card" style="margin: 20px">
                            <div class="text-center card-header-pills">
@@ -138,7 +140,7 @@
                         </div>`;
 
                 addSAMLSSOConfig(samlRequest, samlResponse);
-            } else if (JOB_TYPE_SAML_OPENID == job) {
+            } else if (job == JOB_TYPE_SAML_OPENID && issamlSSO) {
                 inboundAuthElem.innerHTML += `
                     <div class="card" style="margin: 20px" id="oidc-card">
                         <div class="card" id="oidc-label">
