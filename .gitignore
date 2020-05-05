@@ -28,7 +28,7 @@ modules/server-endpoints/language-server/target
 
 #nodemodules
 node_modules
-identity-lsp-root-1.0.0.vsix
+*.vsix
 #out
 out
 
@@ -46,7 +46,6 @@ target
 init.json
 iamctl.json
 Extension Development Host
->>>>>>> prevremote/master
 
 client/server
 .vscode-test

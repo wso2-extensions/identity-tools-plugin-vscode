@@ -1,9 +1,9 @@
 {
-	"name": "identity-lsp-root",
-	"description": "Identity Server LSP Root",
+	"name": "wso2-is",
+	"description": "This gives ability to debug the Authentication flows of WSO2 Identity sever.",
 	"author": "WSO2 Inc.",
 	"license": "Apache 2.0",
-	"version": "0.0.5",
+	"version": "0.0.6-SNAPSHOT",
 	"repository": {},
 	"publisher": "wso2",
 	"categories": [],

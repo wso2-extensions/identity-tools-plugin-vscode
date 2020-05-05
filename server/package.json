@@ -1,7 +1,7 @@
 {
-	"name": "identity-lsp-serverr",
+	"name": "wso2-is-server",
 	"description": "Server Bridge for Identity LSP",
-	"version": "1.0.0",
+	"version": "0.0.6-SNAPSHOT",
 	"author": "WSO2 Inc.",
 	"license": "Apache 2.0",
 	"engines": {
@@ -20,10 +20,5 @@
 		"@types/xml2js": "^0.4.5",
 		"vscode": "^1.1.36"
 	},
-	"scripts": {
-		"preinstall": "npx npm-force-resolutions"
-	},
-	"resolutions": {
-		"minimist": "^1.2.5"
-	}
+	"scripts": {}
 }

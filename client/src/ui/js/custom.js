@@ -66,16 +66,6 @@ function blinking(elm) {
 }
 
 
-function divClick(elem) {
-
-    var oidcDIV = document.getElementById(elem);
-    oidcDIV.onclick = function () {
-        if (oidcDIV.classList.contains("blink")) {
-            oidcDIV.classList.remove("blink");
-        }
-    };
-}
-
 function addSAMLSSOConfig(req, res) {
 
     let query;
@@ -110,7 +100,7 @@ function addSAMLSSOConfig(req, res) {
 }
 
 function addOIDCConfig(oidcAuthzRequest, oidcAuthzResponse, oidcTokenRequest, oidcTokenResponse) {
-    // constants move
+
     const OIDC_AUTHZ_REQUEST = "OIDC_AUTHZ_REQUEST";
     const OIDC_AUTHZ_REQUEST_TITLE = "OIDC Authorization Request";
     const OIDC_AUTHZ_RESPONSE = "OIDC_AUTHZ_RESPONSE";

@@ -128,9 +128,9 @@
 
             let $row = $(this),
                 job = $row.find("InboundAuthType").text();
-            // make the string constants
+
             if (JOB_TYPE_SAML_SSO == job) {
-                // use the jquery  to add the html
+
                 inboundAuthElem.innerHTML += `
                         <div class="card" id="samlsso-card" style="margin: 20px">
                            <div class="text-center card-header-pills">
