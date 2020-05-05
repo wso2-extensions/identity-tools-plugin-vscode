@@ -264,8 +264,6 @@ export class IdentityServerDebugSession extends LoggingDebugSession {
             const answer = this.iamRemoteRuntime.fetchVariables(response, args, request);
             answer.then((remoteResponse) => {
                 remoteResponse.body.variables.forEach((element) => {
-                    //TODO comparing the value
-                    // Check whether it is unefined.
                     if (DebugConstants.SAML_REQUEST === element.name
                         && element.value
                         && !element.value.includes(DebugConstants.DEBUG_NO_SAML)) {

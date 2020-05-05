@@ -3,19 +3,12 @@
 <head>
     <meta charset="UTF-8">
 
-    <link href="{pathCss}/bootstrap.min.css" rel="stylesheet"
+    <link href="{resourcePath}/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="{pathCss}/fontawesome.css" rel="stylesheet" crossorigin="anonymous">
-    <link href="{pathCss}/simpleXML.css" rel="stylesheet" crossorigin="anonymous">
-    <link href="{pathCss}/custom.css" rel="stylesheet" crossorigin="anonymous">
-    <link href="{pathCss}/jsonview.css" rel="stylesheet" crossorigin="anonymous">
-
-    <script src="{pathJS}/jquery-3.4.1.js"></script>
-    <script src="{pathJS}/popper.js"></script>
-    <script src="{pathJS}/fontawesome.js"></script>
-    <script src="{pathJS}/jsplumb.min.js"></script>
-    <script src="{pathJS}/simpleXML.js"></script>
-    <script src="{pathJS}/jsonview.js"></script>
+    <link href="{resourcePath}/css/fontawesome.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="{resourcePath}/css/simpleXML.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="{resourcePath}/css/custom.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="{resourcePath}/css/jsonview.css" rel="stylesheet" crossorigin="anonymous">
 
     <title>Diagram</title>
 
@@ -27,7 +20,7 @@
             <p id="a"></p>
             <div class="block">
                 <div id="start" class="card item_start">
-                    <div class="text-center" style="padding: 15px">
+                    <div class="text-center">
                         <div class="text-center">
                             <b>Start </b>
                         </div>
@@ -47,7 +40,7 @@
 
             <div class="block" id="item_input">
                 <div id="stop" class="card item_start">
-                    <div class="text-center" style="padding: 15px">
+                    <div class="text-center">
                         <div class="text-center" id="end-res-btn">
                             <button disabled id="res-btn" class="btn btn-secondary btn-xs ">Response</button>
                             <hr>
@@ -78,7 +71,7 @@
 
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" id="res-tab-menu">
-                        <a class="nav-link active" id="res-tab" style="" data-toggle="tab" href="#res-tab-val"
+                        <a class="nav-link active" id="res-tab" data-toggle="tab" href="#res-tab-val"
                            role="tab"
                            aria-controls="home"
                            aria-selected="true">Response</a>
@@ -102,8 +95,14 @@
 </div>
 
 </body>
-<script src="{pathJS}/bootstrap.min.js"></script>
-<script src="{pathJS}/custom.js"></script>
+<script src="{resourcePath}/js/jquery-3.4.1.js"></script>
+<script src="{resourcePath}/js/popper.js"></script>
+<script src="{resourcePath}/js/fontawesome.js"></script>
+<script src="{resourcePath}/js/jsplumb.min.js"></script>
+<script src="{resourcePath}/js/simpleXML.js"></script>
+<script src="{resourcePath}/js/jsonview.js"></script>
+<script src="{resourcePath}/js/bootstrap.min.js"></script>
+<script src="{resourcePath}/js/custom.js"></script>
 <script>
     $(document).ready(function () {
         const vscode = acquireVsCodeApi();

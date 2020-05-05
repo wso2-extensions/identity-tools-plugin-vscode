@@ -1,5 +1,11 @@
 let timer;
 
+/**
+ * Decode the String so that special characters will be automatically removed.
+ *
+ * @param html The string with special characters.
+ * @returns {string} Decoded string.
+ */
 function decodeHtml(html) {
 
     let txt = document.createElement("textarea");
@@ -7,6 +13,15 @@ function decodeHtml(html) {
     return txt.value;
 }
 
+/**
+ * Function to handle specific button clicked on diagram.
+ *
+ * @param elem The specific element identifier.
+ * @param title The title to show in the Modal view.
+ * @param req The request variable.
+ * @param res The response variable.
+ * @param type The type of the variable.
+ */
 function buttonClick(elem, title, req, res, type) {
 
     $(".block").on("click", elem, function () {
@@ -14,6 +29,14 @@ function buttonClick(elem, title, req, res, type) {
     });
 }
 
+/**
+ * Function to show the modal with specific content manipulation.
+ *
+ * @param title The title to show in the Modal view.
+ * @param req The request variable.
+ * @param res The response variable.
+ * @param type The type of the variable.
+ */
 function showModal(title, req, res, type) {
 
     const XML = "xml";
@@ -31,8 +54,7 @@ function showModal(title, req, res, type) {
         const req_elem_menu = '#req-tab-menu';
         const res_elem = '#res-tab-val';
         const res_elem_menu = '#res-tab-menu';
-        // Better way to check the empty using jquery
-        // EMPTy?
+
         $(req_elem).empty();
         $(res_elem).empty();
         $(req_elem_menu).hide();
@@ -53,6 +75,11 @@ function showModal(title, req, res, type) {
     $('#commmon-modal').modal('show');
 }
 
+/**
+ * The function Responsible for blinking.
+ *
+ * @param elm The specific element identifier.
+ */
 function blinking(elm) {
 
     timer = setInterval(blink, 10);
@@ -65,7 +92,12 @@ function blinking(elm) {
     }
 }
 
-
+/**
+ * Handle the SAML request and SAML response.
+ *
+ * @param req The SAML request variable.
+ * @param res The SAML response variable.
+ */
 function addSAMLSSOConfig(req, res) {
 
     let query;
@@ -99,6 +131,14 @@ function addSAMLSSOConfig(req, res) {
     }
 }
 
+/**
+ * Handle the OIDC related request and response.
+ *
+ * @param oidcAuthzRequest The OIDC Authorization request variable.
+ * @param oidcAuthzResponse The OIDC Authorization response variable.
+ * @param oidcTokenRequest The OIDC Token request variable.
+ * @param oidcTokenResponse The OIDC Token response variable.
+ */
 function addOIDCConfig(oidcAuthzRequest, oidcAuthzResponse, oidcTokenRequest, oidcTokenResponse) {
 
     const OIDC_AUTHZ_REQUEST = "OIDC_AUTHZ_REQUEST";
