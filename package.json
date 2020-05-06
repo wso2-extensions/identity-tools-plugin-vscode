@@ -1,5 +1,7 @@
 {
 	"name": "wso2-is",
+	"icon": "resources/is.png",
+	"displayName": "WSO2 IS",
 	"description": "This gives ability to debug the Authentication flows of WSO2 Identity sever.",
 	"author": "WSO2 Inc.",
 	"license": "Apache 2.0",
