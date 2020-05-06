@@ -46,7 +46,6 @@ target
 init.json
 iamctl.json
 Extension Development Host
->>>>>>> prevremote/master
 
 client/server
 .vscode-test

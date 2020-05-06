@@ -61,12 +61,8 @@ export class PreviewManager {
                 path.join(context.extensionPath, "client", "src", "ui", Config.DIAGRAM_HTML_NAME),
             ).with({scheme: "vscode-resource"});
 
-            const pathCss = vscode.Uri.file(
-                path.join(context.extensionPath, "client", "src", "ui", "css"),
-            ).with({scheme: "vscode-resource"});
-
-            const pathJS = vscode.Uri.file(
-                path.join(context.extensionPath, "client", "src", "ui", "js"),
+            const resourcePath = vscode.Uri.file(
+                path.join(context.extensionPath, "client", "src", "ui"),
             ).with({scheme: "vscode-resource"});
 
             const panel = vscode.window.createWebviewPanel(
@@ -80,7 +76,7 @@ export class PreviewManager {
             );
             // Assign html code to the web view panel.
             const htmlGenerated = previewManager.getWebviewContentForDiagram(code,
-                pathUri, xmlFilePath, pathCss, pathJS);
+                pathUri, xmlFilePath, resourcePath);
             panel.webview.html = htmlGenerated;
             panel.webview.onDidReceiveMessage(
                 (message) => {
@@ -98,17 +94,20 @@ export class PreviewManager {
     /**
      * Generate the html of web view for the diagram.
      */
-    public getWebviewContentForDiagram(xmlCode, pathForHtml, filepath, pathCss, pathJS) {
+    public getWebviewContentForDiagram(xmlCode, pathForHtml, filepath, resourcePath) {
 
         const htmlCode = fileHandler.getHTMLCode(pathForHtml.fsPath);
 
         return format(htmlCode, {
             SAML_REQUEST: DebugConstants.SAML_REQUEST_HTML,
             SAML_RESPONSE: DebugConstants.SAML_RESPONSE_HTML,
+            OIDC_AUTHZ_REQUEST : DebugConstants.OIDC_AUTHZ_REQUEST_HTML,
+            OIDC_AUTHZ_RESPONSE : DebugConstants.OIDC_AUTHZ_RESPONSE_HTML,
+            OIDC_TOKEN_REQUEST : DebugConstants.OIDC_TOKEN_REQUEST_HTML,
+            OIDC_TOKEN_RESPONSE : DebugConstants.OIDC_TOKEN_RESPONSE_HTML,
             myXML: xmlCode,
             myfilepath: filepath,
-            pathCss,
-            pathJS,
+            resourcePath,
         });
     }
 
