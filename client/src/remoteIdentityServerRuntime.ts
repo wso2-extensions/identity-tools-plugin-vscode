@@ -377,6 +377,8 @@ export class RemoteIdentityServerRuntime extends EventEmitter {
 
         let accessToken;
         const secret = keytar.getPassword(DebugConstants.ACCESS_TOKEN, DebugConstants.ACCESS_TOKEN);
+        const url = vscode.workspace.getConfiguration().get(DebugConstants.IAM_URL);
+        const tenant = vscode.workspace.getConfiguration().get(DebugConstants.IAM_TENANT);
         await secret.then((result) => {
             accessToken = result;
         });
@@ -388,7 +390,7 @@ export class RemoteIdentityServerRuntime extends EventEmitter {
             rejectUnauthorized: false,
         };
 
-        const webSocket = new WebSocket(Config.WEBSOCKET_END_POINT, options);
+        const webSocket = new WebSocket(Config.PATH_DEBUG(url, tenant), options);
         this.webSocket = webSocket;
         vscode.window.showInformationMessage("Debug Session Started..");
         rpc.listen({

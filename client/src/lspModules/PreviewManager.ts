@@ -168,10 +168,9 @@ export class PreviewManager {
                     // Open the login page.
                      vscode.commands.executeCommand(
                         "vscode.open",
-                        vscode.Uri.parse(Config.PATH_GET_AUTH_CODE(url, message.clientID,
+                         vscode.Uri.parse(Config.PATH_GET_AUTH_CODE(url,message.tenant, message.clientID,
                             Config.VSCODE_SP_REDIRECT_URL, scope)),
                     );
-                    // TODO check typo changes broke anything
                 } else if (message.command === "access") {
                     // Set Access Token to system key chain.
                     await keytar.setPassword(DebugConstants.ACCESS_TOKEN, DebugConstants.ACCESS_TOKEN,

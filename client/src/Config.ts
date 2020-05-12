@@ -21,7 +21,6 @@
  */
 export class Config {
 
-    public static readonly WEBSOCKET_END_POINT = "wss://localhost:9443/lsp/debug";
     public static readonly LANGUAGE_CLIENT_ID = "wso2isLanguageServer";
     public static readonly LANGUAGE_CLIENT_NAME = "Language Server for WSO2 IS";
     public static readonly PATH_OAUTH = "/oauth";
@@ -32,8 +31,8 @@ export class Config {
     public static readonly PATH_APPLICATION_IMPORT: (iamUrl, tenant) => string =
         (iamUrl, tenant) => `${iamUrl}/t/${tenant}/api/server/v1/applications/import`;
 
-    public static readonly PATH_GET_AUTH_CODE: (iamUrl, clientID, redirectUri, scope) => string =
-        (iamUrl, clientID, redirectUri, scope) => `${iamUrl}/oauth2/authorize?response_type=code&` +
+    public static readonly PATH_GET_AUTH_CODE: (iamUrl,tenant, clientID, redirectUri, scope) => string =
+        (iamUrl,tenant, clientID, redirectUri, scope) => `${iamUrl}/t/${tenant}/oauth2/authorize?response_type=code&` +
             `redirect_uri=${redirectUri}&client_id=${clientID}&scope="${scope}`;
 
     public static readonly PATH_GET_SCRIPT_LIBRARY_BY_NAME: (iamUrl, tenant, scriptLibraryName) => string =
@@ -44,9 +43,11 @@ export class Config {
             `script-libraries`;
     public static readonly PATH_APPLICATION_EXPORT: (iamUrl, tenant, serviceID) => string =
         (iamUrl, tenant, serviceID) => `${iamUrl}/t/${tenant}/api/server/v1/applications/${serviceID}/export`;
-    public static readonly PATH_AUTHORISE: (iamUrl, requestToken, redirectUrl) => string =
-        (iamUrl, requestToken, redirectUrl) => `${iamUrl}/oauth2/token?grant_type=authorization_code&` +
-            `code=${requestToken}&redirect_uri=${redirectUrl}`;
+    public static readonly PATH_AUTHORISE: (iamUrl, tenant, requestToken, redirectUrl) => string =
+        (iamUrl, tenant, requestToken, redirectUrl) => `${iamUrl}/t/${tenant}/oauth2/token?` +
+            `grant_type=authorization_code&code=${requestToken}&redirect_uri=${redirectUrl}`;
     public static readonly PATH_APPLICATIONS: (iamUrl, tenant) => string =
         (iamUrl, tenant) => `${iamUrl}/t/${tenant}/api/server/v1/applications`;
+    public static readonly PATH_DEBUG: (iamUrl, tenant) => string =
+        (iamUrl, tenant) => `${iamUrl}/t/${tenant}/lsp/debug?tenantDomain=${tenant}`;
 }
