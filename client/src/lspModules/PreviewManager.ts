@@ -8,6 +8,7 @@ import {DebugConstants} from "../DebugConstants";
 import {FileHandler} from "./fileHandler";
 import {Wso2OAuth} from "./oAuthService";
 import {ViewPanelHolder} from "./ViewPanelHolder";
+import {ExtensionConstants} from "../ExtensionConstants";
 
 const scope = "internal_application_mgt_create internal_application_mgt_delete internal_application_mgt_update " +
     "internal_application_mgt_view internal_functional_lib_view";
@@ -131,7 +132,6 @@ export class PreviewManager {
         );
 
         const preClientId = vscode.workspace.getConfiguration().get(DebugConstants.IAM_SERVICE_CLIENT_ID);
-        const preTenant = vscode.workspace.getConfiguration().get(DebugConstants.IAM_TENANT);
         let preClientSecret;
         const secret = keytar.getPassword(DebugConstants.CLIENT_SECRET, DebugConstants.CLIENT_SECRET);
         await secret.then((result) => {
@@ -141,37 +141,33 @@ export class PreviewManager {
         panel.webview.html = format(html, {
             wso2ISClientID: String(preClientId),
             wso2ISClientSecret: String(preClientSecret),
-            wso2isTenant: String(preTenant),
-            wso2isurl: vscode.workspace.getConfiguration().get(DebugConstants.IAM_URL),
+            wso2ISBaseUrl: vscode.workspace.getConfiguration().get(DebugConstants.IAM_BASE_URL),
         });
 
-        const url = vscode.workspace.getConfiguration().get(DebugConstants.IAM_URL);
+        const baseUrl = vscode.workspace.getConfiguration().get(DebugConstants.IAM_BASE_URL);
         panel.webview.onDidReceiveMessage(
             async (message) => {
-                if (message.command === "login") {
+                if (message.command === ExtensionConstants.VS_CODE_MESSAGE_COMMAND_LOGIN) {
                     // To start the server.
-                     await new Wso2OAuth(8010, context).StartProcess();
+                    await new Wso2OAuth(8010, context).StartProcess();
 
                     // Set the url to extension configuration.
-                     vscode.workspace.getConfiguration().update(DebugConstants.IAM_URL, message.url);
-
-                    // Set the tenant domain to extension configuration.
-                     vscode.workspace.getConfiguration().update(DebugConstants.IAM_TENANT, message.tenant);
+                    vscode.workspace.getConfiguration().update(DebugConstants.IAM_BASE_URL, message.baseUrl);
 
                     // Set the client id to extension configurations.
-                     vscode.workspace.getConfiguration().update(DebugConstants.IAM_SERVICE_CLIENT_ID, message.clientID);
+                    vscode.workspace.getConfiguration().update(DebugConstants.IAM_SERVICE_CLIENT_ID, message.clientID);
 
                     // Set Client Secret to system key chain.
-                     await keytar.setPassword(DebugConstants.CLIENT_SECRET,
+                    await keytar.setPassword(DebugConstants.CLIENT_SECRET,
                         DebugConstants.CLIENT_SECRET, message.clientSecret);
 
                     // Open the login page.
-                     vscode.commands.executeCommand(
-                        "vscode.open",
-                         vscode.Uri.parse(Config.PATH_GET_AUTH_CODE(url,message.tenant, message.clientID,
+                    vscode.commands.executeCommand(
+                        ExtensionConstants.VS_CODE_MESSAGE_COMMAND_OPEN,
+                        vscode.Uri.parse(Config.PATH_GET_AUTH_CODE(baseUrl, message.clientID,
                             Config.VSCODE_SP_REDIRECT_URL, scope)),
                     );
-                } else if (message.command === "access") {
+                } else if (message.command === ExtensionConstants.VS_CODE_MESSAGE_COMMAND_ACCESS) {
                     // Set Access Token to system key chain.
                     await keytar.setPassword(DebugConstants.ACCESS_TOKEN, DebugConstants.ACCESS_TOKEN,
                         message.accessToken);

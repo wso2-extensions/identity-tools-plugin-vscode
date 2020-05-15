@@ -38,8 +38,7 @@ export class ServiceTree implements vscode.TreeDataProvider<Dependency> {
      */
     private async getListOfItems(): Promise<Dependency[]> {
         const services = [];
-        const url = vscode.workspace.getConfiguration().get(DebugConstants.IAM_URL);
-        const tenant = vscode.workspace.getConfiguration().get(DebugConstants.IAM_TENANT);
+        const baseUrl = vscode.workspace.getConfiguration().get(DebugConstants.IAM_BASE_URL);
         let accessToken;
         // Get the access token from the system key chain.
         const secret = keytar.getPassword(DebugConstants.ACCESS_TOKEN, DebugConstants.ACCESS_TOKEN);
@@ -54,7 +53,7 @@ export class ServiceTree implements vscode.TreeDataProvider<Dependency> {
                 accept: "*/*",
             },
             method: "get",
-            url: Config.PATH_APPLICATIONS(url, tenant),
+            url: Config.PATH_APPLICATIONS(baseUrl),
         }).then((response) => {
             // Once we get the response, extract the access token from
             // the response body

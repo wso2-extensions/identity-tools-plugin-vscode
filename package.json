@@ -253,15 +253,10 @@
 					"default": "",
 					"description": "Client ID of the Service"
 				},
-				"IAM.URL": {
+				"IAM.BaseURL": {
 					"type": "string",
-					"default": "https://localhost:9443",
-					"description": "URL of the WSO2 Identity Server"
-				},
-				"IAM.Tenant": {
-					"type": "string",
-					"default": "carbon.super",
-					"description": "WSO2 Identity Server tenat domain"
+					"default": "https://localhost:9443/t/carbon.super",
+					"description": "Base URL of the Identity Server"
 				}
 			}
 		}

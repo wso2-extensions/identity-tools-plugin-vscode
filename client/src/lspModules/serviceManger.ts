@@ -25,8 +25,7 @@ export class ServiceManger {
      */
     public async getServicesList() {
 
-        const url = vscode.workspace.getConfiguration().get(DebugConstants.IAM_URL);
-        const tenant = vscode.workspace.getConfiguration().get(DebugConstants.IAM_TENANT);
+        const baseUrl = vscode.workspace.getConfiguration().get(DebugConstants.IAM_BASE_URL);
         let accessToken;
         // Get the access token from the system key chain.
         const secret = keytar.getPassword(DebugConstants.ACCESS_TOKEN, DebugConstants.ACCESS_TOKEN);
@@ -39,7 +38,7 @@ export class ServiceManger {
 
         axios({
             method: "get",
-            url: Config.PATH_APPLICATIONS(url, tenant),
+            url: Config.PATH_APPLICATIONS(baseUrl),
 
             // Set the content type header, so that we get the response in JSOn
             headers: {
@@ -101,8 +100,7 @@ export class ServiceManger {
      */
     public async exportService(serviceID, service) {
 
-        const url = vscode.workspace.getConfiguration().get(DebugConstants.IAM_URL);
-        const tenant = vscode.workspace.getConfiguration().get(DebugConstants.IAM_TENANT);
+        const baseUrl = vscode.workspace.getConfiguration().get(DebugConstants.IAM_BASE_URL);
         let accessToken;
         // Get the access token from the system key chain.
         const secret = keytar.getPassword(DebugConstants.ACCESS_TOKEN, DebugConstants.ACCESS_TOKEN);
@@ -123,7 +121,7 @@ export class ServiceManger {
             params: {
                 exportSecrets: false,
             },
-            url: Config.PATH_APPLICATION_EXPORT(url, tenant, serviceID),
+            url: Config.PATH_APPLICATION_EXPORT(baseUrl, serviceID),
         }).then(async (response) => {
             await fileHandler.createXMLFile(response.data, service);
         }).catch((err) => {

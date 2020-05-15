@@ -271,8 +271,7 @@ ${newAdaptiveScriptCode}`,
      */
     public async updateService(file) {
 
-        const iamUrl = vscode.workspace.getConfiguration().get(DebugConstants.IAM_URL);
-        const tenant = vscode.workspace.getConfiguration().get(DebugConstants.IAM_TENANT);
+        const baseUrl = vscode.workspace.getConfiguration().get(DebugConstants.IAM_BASE_URL);
         let accessToken;
         // Get the access token from the system key chain.
         const secret = keytar.getPassword(DebugConstants.ACCESS_TOKEN, DebugConstants.ACCESS_TOKEN);
@@ -293,7 +292,7 @@ ${newAdaptiveScriptCode}`,
                 "Content-Type": "multipart/form-data",
             },
             method: "put",
-            url: Config.PATH_APPLICATION_IMPORT(iamUrl, tenant),
+            url: Config.PATH_APPLICATION_IMPORT(baseUrl),
         }).then(async (response) => {
             vscode.window.showInformationMessage(DebugConstants.MESSAGE_SERVICE_IMPORT_SUCCESS);
         }).catch((err) => {
