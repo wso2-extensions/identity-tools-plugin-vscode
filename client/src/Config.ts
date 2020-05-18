@@ -21,7 +21,6 @@
  */
 export class Config {
 
-    public static readonly WEBSOCKET_END_POINT = "wss://localhost:9443/t/example.com/lsp/debug";
     public static readonly LANGUAGE_CLIENT_ID = "wso2isLanguageServer";
     public static readonly LANGUAGE_CLIENT_NAME = "Language Server for WSO2 IS";
     public static readonly PATH_OAUTH = "/oauth";
