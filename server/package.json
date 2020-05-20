@@ -1,7 +1,7 @@
 {
 	"name": "wso2-is-server",
 	"description": "Server Bridge for Identity LSP",
-	"version": "0.0.6-SNAPSHOT",
+	"version": "0.0.6",
 	"author": "WSO2 Inc.",
 	"license": "Apache 2.0",
 	"engines": {
