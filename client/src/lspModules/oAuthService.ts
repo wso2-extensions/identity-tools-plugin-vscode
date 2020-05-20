@@ -74,14 +74,13 @@ export class Wso2OAuth {
                 const requestToken = req.query.code;
 
                 // Get the url of the wso2 IS.
-                const url = vscode.workspace.getConfiguration().get(DebugConstants.IAM_URL);
-
+                const baseUrl = vscode.workspace.getConfiguration().get(DebugConstants.IAM_BASE_URL);
                 // To bypass the self signed server error.
                 process.env[ExtensionConstants.NODE_TLS_REJECT_UNAUTHORIZED] = "0";
                 axios({
 
                     method: "post",
-                    url: Config.PATH_AUTHORISE(url, requestToken, Config.VSCODE_SP_REDIRECT_URL),
+                    url: Config.PATH_AUTHORISE(baseUrl, requestToken, Config.VSCODE_SP_REDIRECT_URL),
 
                     // Set the content type header, so that we get the response in JSOn
                     headers: {

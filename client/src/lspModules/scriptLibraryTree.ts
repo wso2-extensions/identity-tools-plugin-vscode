@@ -50,8 +50,7 @@ export class ScriptLibraryTree implements vscode.TreeDataProvider<Dependency> {
     private async getListOfItems(context): Promise<Dependency[]> {
 
         const scriptLibraries = [];
-        const url = vscode.workspace.getConfiguration().get(DebugConstants.IAM_URL);
-        const tenant = vscode.workspace.getConfiguration().get(DebugConstants.IAM_TENANT);
+        const baseUrl = vscode.workspace.getConfiguration().get(DebugConstants.IAM_BASE_URL);
         let accessToken;
         // Get the access token from the system key chain.
         const secret = keytar.getPassword(DebugConstants.ACCESS_TOKEN, DebugConstants.ACCESS_TOKEN);
@@ -69,7 +68,7 @@ export class ScriptLibraryTree implements vscode.TreeDataProvider<Dependency> {
 
             },
             method: "get",
-            url: Config.PATH_GET_ALL_SCRIPT_LIBRARY(url, tenant),
+            url: Config.PATH_GET_ALL_SCRIPT_LIBRARY(baseUrl),
         }).then(async (response) => {
             // Once we get the response, extract the access token from
             // the response body
@@ -92,7 +91,7 @@ export class ScriptLibraryTree implements vscode.TreeDataProvider<Dependency> {
                     await axios({
 
                         method: "get",
-                        url: Config.PATH_GET_SCRIPT_LIBRARY_BY_NAME(url, tenant, scriptLibraryName),
+                        url: Config.PATH_GET_SCRIPT_LIBRARY_BY_NAME(baseUrl, scriptLibraryName),
 
                         // Set the content type header, so that we get the response in JSOn
                         headers: {

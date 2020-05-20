@@ -42,9 +42,8 @@ export class DebugConstants {
     public static readonly DEFAULT_SCRIPT_FILE = `defaultScriptFile`;
     public static readonly AUTHENTICATION_SCRIPT_TRUE = `AuthenticationScript enabled="true"`;
     public static readonly AUTHENTICATION_SCRIPT_FALSE = `AuthenticationScript enabled="false"`;
-    public static readonly IAM_URL = "IAM.URL";
+    public static readonly IAM_BASE_URL = "IAM.BaseURL";
     public static readonly IAM_SERVICE_CLIENT_ID = "IAM.ServiceClientID";
-    public static readonly IAM_TENANT = "IAM.Tenant";
     public static readonly CLIENT_SECRET = "clientSecret";
     public static readonly ACCESS_TOKEN = "accessToken";
     public static readonly STRING_ENCODING = "base64";
@@ -55,6 +54,8 @@ export class DebugConstants {
     public static readonly DEBUG_SET_BREAKPOINT = "setBreakpoint";
     public static readonly DEBUG_BREAKPOINT_VALIDATED = "breakpointValidated";
     public static readonly DEBUG_CONTINUE = "continue";
+    public static readonly DEBUG_CONNECTED = "connected";
+    public static readonly DEBUG_BREAKPOINT = "breakpoint";
     public static readonly DEBUG_STOP_ON_STEP = "stopOnStep";
     public static readonly DEBUG_STOP_ON_DATA_BREAKPOINT = "stopOnDataBreakpoint";
     public static readonly DEBUG_EXCEPTION = "exception";

@@ -30,4 +30,8 @@ export class ExtensionConstants {
     public static readonly REFRESH_SERVICES = "extension.refreshServices";
     public static readonly REFRESH_SERVICES_VIEW_ID = "service-providers";
     public static readonly NODE_TLS_REJECT_UNAUTHORIZED = "NODE_TLS_REJECT_UNAUTHORIZED";
+
+    public static readonly VS_CODE_MESSAGE_COMMAND_LOGIN= "login";
+    public static readonly VS_CODE_MESSAGE_COMMAND_ACCESS = "access";
+    public static readonly VS_CODE_MESSAGE_COMMAND_OPEN= "vscode.open";
 }
