@@ -3,7 +3,7 @@
 	"description": "VSCode extension for Identity Server LSP",
 	"author": "WSO2 Inc.",
 	"license": "Apache 2.0",
-	"version": "0.0.7-SNAPSHOT",
+	"version": "0.6.0",
 	"publisher": "wso2.com",
 	"repository": {},
 	"engines": {
