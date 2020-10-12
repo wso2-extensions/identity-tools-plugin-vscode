@@ -30,7 +30,7 @@ export class Config {
     public static readonly AUTHENTICATION_HTML_NAME = "oAuth.html";
 
 
-    public static readonly PATH_APPLICATION_IMPORT: (baseUrl) => string =
+    public static readonly PATH_APPLICATION_IMPORT: (baseUrl: string) => string =
         (baseUrl) => `${baseUrl}/api/server/v1/applications/import`;
     public static readonly PATH_GET_AUTH_CODE: (baseUrl, clientID, redirectUri, scope) => string =
         (baseUrl, clientID, redirectUri, scope) => `${baseUrl}/oauth2/authorize?response_type=code&` +

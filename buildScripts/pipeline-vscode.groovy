@@ -15,6 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 import groovy.json.JsonSlurper
 
 def VERSION
@@ -98,10 +99,6 @@ node('COMPONENT_ECS') {
                         script: "curl -s -H \"Content-Type: application/octet-stream\" -u ${GIT_USERNAME}:${GIT_PASSWORD} " +
                                 "--data-binary @${file} " +
                                 "${uploadUrl}?name=${file}\\&label=${file}"
-
-
-
-
                 sh """
                         npm version ${DevelopmentVersion} --no-git-tag-version --allow-same-version
                         cd server/
@@ -123,20 +120,18 @@ node('COMPONENT_ECS') {
                """
                 sh 'git push -u "https://"${GIT_USERNAME}:${GIT_PASSWORD}"@github' +
                         '.com/wso2-extensions/identity-tools-plugin-vscode.git"'
-
             }
         }
-
     }
     stage('Results') {
         archiveArtifacts '*.vsix'
     }
 }
 
-
 @NonCPS
 def getUploadUrl(response) {
-    JsonSlurper slurper = new JsonSlurper();
+
+    JsonSlurper slurper = new JsonSlurper()
     def data = slurper.parseText(response)
     def upload_url = data.upload_url
     return upload_url.substring(0, upload_url.lastIndexOf("{"))
