@@ -106,7 +106,6 @@
     top: 100% !important;
 }
 
-
 .item_start > .text-center {
     padding: 15px
 }
@@ -137,4 +136,3 @@
     from { opacity:1; }
     to { opacity:0; }
 }
-

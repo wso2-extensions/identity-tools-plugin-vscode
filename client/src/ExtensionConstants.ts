@@ -21,17 +21,17 @@
  */
 export class ExtensionConstants {
 
-    public static readonly DIAGRAM = "extension.diagram";
-    public static readonly SCRIPT = "extension.script";
-    public static readonly SERVICE_PROVIDER = "extension.serviceProviders";
-    public static readonly SERVICE_PROVIDER_FROM_TREE_VIEW = "extension.serviceProviderFromTreeView";
-    public static readonly REFRESH_SCRIPTS = "extension.refreshScripts";
-    public static readonly REFRESH_SCRIPTS_VIEW_ID = "script-libraries";
-    public static readonly REFRESH_SERVICES = "extension.refreshServices";
-    public static readonly REFRESH_SERVICES_VIEW_ID = "service-providers";
-    public static readonly NODE_TLS_REJECT_UNAUTHORIZED = "NODE_TLS_REJECT_UNAUTHORIZED";
+    public static readonly DIAGRAM: string = "extension.diagram";
+    public static readonly SCRIPT: string = "extension.script";
+    public static readonly SERVICE_PROVIDER: string = "extension.serviceProviders";
+    public static readonly SERVICE_PROVIDER_FROM_TREE_VIEW: string = "extension.serviceProviderFromTreeView";
+    public static readonly REFRESH_SCRIPTS: string = "extension.refreshScripts";
+    public static readonly REFRESH_SCRIPTS_VIEW_ID: string = "script-libraries";
+    public static readonly REFRESH_SERVICES: string = "extension.refreshServices";
+    public static readonly REFRESH_SERVICES_VIEW_ID: string = "service-providers";
+    public static readonly NODE_TLS_REJECT_UNAUTHORIZED: string = "NODE_TLS_REJECT_UNAUTHORIZED";
 
-    public static readonly VS_CODE_MESSAGE_COMMAND_LOGIN= "login";
-    public static readonly VS_CODE_MESSAGE_COMMAND_ACCESS = "access";
-    public static readonly VS_CODE_MESSAGE_COMMAND_OPEN= "vscode.open";
+    public static readonly VS_CODE_MESSAGE_COMMAND_LOGIN: string = "login";
+    public static readonly VS_CODE_MESSAGE_COMMAND_ACCESS: string = "access";
+    public static readonly VS_CODE_MESSAGE_COMMAND_OPEN: string = "vscode.open";
 }

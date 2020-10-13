@@ -60,6 +60,7 @@ function showModal(title, req, res, type) {
         $(res_elem).empty();
         $(req_elem_menu).hide();
         $(res_elem_menu).hide();
+
         if (req) {
             jsonView.format(req, req_elem);
             $(req_elem_menu).show();

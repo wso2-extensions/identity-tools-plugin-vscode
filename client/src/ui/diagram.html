@@ -114,13 +114,14 @@
         $xml = $(xmlDoc);
         let inboundAuthElem = document.getElementById("inbound-auth-div");
         y = document.getElementById("item_input");
-        let samlRequest = `{SAML_REQUEST}`;
-        let samlResponse = `{SAML_RESPONSE}`;
-        let oidcAuthzRequest = `{OIDC_AUTHZ_REQUEST}`;
-        let oidcAuthzResponse = `{OIDC_AUTHZ_RESPONSE}`;
-        let oidcTokenRequest = `{OIDC_TOKEN_REQUEST}`;
-        let oidcTokenResponse = `{OIDC_TOKEN_RESPONSE}`;
+        const samlRequest = `{SAML_REQUEST}`;
+        const samlResponse = `{SAML_RESPONSE}`;
+        const oidcAuthzRequest = `{OIDC_AUTHZ_REQUEST}`;
+        const oidcAuthzResponse = `{OIDC_AUTHZ_RESPONSE}`;
+        const oidcTokenRequest = `{OIDC_TOKEN_REQUEST}`;
+        const oidcTokenResponse = `{OIDC_TOKEN_RESPONSE}`;
         let issamlSSO = true;
+
         $('#myTab').hide();
 
         $xml.find("InboundAuthenticationConfig")

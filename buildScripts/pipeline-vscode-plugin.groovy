@@ -15,6 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 import groovy.json.JsonSlurper
 
 def VERSION
@@ -25,9 +26,8 @@ def repo = "wso2-extensions/identity-tools-plugin-vscode"
 node('master') {
     stage('Preparation') {
         // Get some code from a GitHub repository
-        checkout([$class           : 'GitSCM', branches: [[name: BRANCH]],
+        checkout([$class : 'GitSCM', branches: [[name: BRANCH]],
                   userRemoteConfigs: [[url: CLI_REPO]]])
-
     }
     stage('Build') {
         if (ReleaseVersion != "") {
@@ -74,20 +74,18 @@ node('master') {
                         script: "curl -s -H \"Content-Type: application/octet-stream\" -u ${GIT_USERNAME}:${GIT_PASSWORD} " +
                                 "--data-binary @${file} " +
                                 "${uploadUrl}?name=${file}\\&label=${file}"
-
             }
         }
-
     }
     stage('Results') {
         archiveArtifacts '*.vsix'
     }
 }
 
-
 @NonCPS
 def getUploadUrl(response) {
-    JsonSlurper slurper = new JsonSlurper();
+
+    JsonSlurper slurper = new JsonSlurper()
     def data = slurper.parseText(response)
     def upload_url = data.upload_url
     return upload_url.substring(0, upload_url.lastIndexOf("{"))

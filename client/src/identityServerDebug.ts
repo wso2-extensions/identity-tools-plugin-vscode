@@ -280,6 +280,7 @@ export class IdentityServerDebugSession extends LoggingDebugSession {
                             OIDC_TOKEN_REQUEST : DebugConstants.OIDC_TOKEN_REQUEST_HTML,
                             OIDC_TOKEN_RESPONSE : DebugConstants.OIDC_TOKEN_RESPONSE_HTML,
                         });
+
                         panel.webview.html = newHtml;
                         viewPanelHolder.setCurrentHtml(newHtml);
                     } else if (DebugConstants.SAML_RESPONSE === element.name) {
@@ -296,6 +297,7 @@ export class IdentityServerDebugSession extends LoggingDebugSession {
                             OIDC_TOKEN_RESPONSE : DebugConstants.OIDC_TOKEN_RESPONSE_HTML,
 
                         });
+
                         panel.webview.html = newHtml;
                         viewPanelHolder.setCurrentHtml(newHtml);
                     } else if (DebugConstants.OIDC_AUTHZ_REQUEST === element.name) {
@@ -312,6 +314,7 @@ export class IdentityServerDebugSession extends LoggingDebugSession {
                             OIDC_TOKEN_REQUEST : DebugConstants.OIDC_TOKEN_REQUEST_HTML,
                             OIDC_TOKEN_RESPONSE : DebugConstants.OIDC_TOKEN_RESPONSE_HTML,
                         });
+
                         panel.webview.html = newHtml;
                         viewPanelHolder.setCurrentHtml(newHtml);
                     } else if (DebugConstants.OIDC_AUTHZ_RESPONSE ===  element.name
@@ -329,6 +332,7 @@ export class IdentityServerDebugSession extends LoggingDebugSession {
                             OIDC_TOKEN_REQUEST : DebugConstants.OIDC_TOKEN_REQUEST_HTML,
                             OIDC_TOKEN_RESPONSE : DebugConstants.OIDC_TOKEN_RESPONSE_HTML,
                         });
+
                         panel.webview.html = newHtml;
                         viewPanelHolder.setCurrentHtml(newHtml);
                     } else if (DebugConstants.OIDC_TOKEN_REQUEST === element.name) {
@@ -343,6 +347,7 @@ export class IdentityServerDebugSession extends LoggingDebugSession {
                             OIDC_TOKEN_REQUEST : JSON.stringify(element.value),
                             OIDC_TOKEN_RESPONSE : DebugConstants.OIDC_TOKEN_RESPONSE_HTML,
                         });
+
                         panel.webview.html = newHtml;
                         viewPanelHolder.setCurrentHtml(newHtml);
                     } else if (DebugConstants.OIDC_TOKEN_RESPONSE === element.name) {
@@ -356,6 +361,7 @@ export class IdentityServerDebugSession extends LoggingDebugSession {
                             SAML_RESPONSE: DebugConstants.SAML_RESPONSE_HTML,
                             OIDC_TOKEN_RESPONSE : JSON.stringify(element.value),
                         });
+
                         panel.webview.html = newHtml;
                         viewPanelHolder.setCurrentHtml(newHtml);
                     }

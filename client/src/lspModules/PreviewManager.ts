@@ -108,7 +108,7 @@ export class PreviewManager {
             OIDC_TOKEN_RESPONSE : DebugConstants.OIDC_TOKEN_RESPONSE_HTML,
             myXML: xmlCode,
             myfilepath: filepath,
-            resourcePath,
+            resourcePath
         });
     }
 
