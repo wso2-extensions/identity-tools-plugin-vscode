@@ -1,3 +1,6 @@
+# This repository is no longer maintained.
+Issue reports and pull requests will not be attended.
+
 # identity-tools-plugin-vscode
 A VS Code Extension Which gives ability to connect to IS, fetch Service Providers, visualize in to diagram
 ,Generate adaptive Scripts for the Service Providers , debug the Authentication flows of the Identity sever. 
